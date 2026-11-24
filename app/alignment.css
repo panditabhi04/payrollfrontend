@@ -1,0 +1,84 @@
+/* =====================================================================
+ * Global alignment layer — LAYOUT ONLY (no colours, no behaviour).
+ * Loaded after globals.css. Fixes the float-based Bootstrap-3 rows (cells of
+ * unequal height snagging / stepping) and aligns controls on a shared baseline.
+ * ===================================================================== */
+
+/* 1) Bootstrap-style rows -> wrapping flex lines. Widths still come from the
+      col-* classes, so every page keeps its existing column structure. */
+.row:not(.text-center):has(> [class*="col-"]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;          /* inputs of one line share the same bottom edge */
+  row-gap: 10px;
+}
+/* rows holding tall blocks (tables, textareas, multi-selects, images) keep top alignment */
+.row:not(.text-center):has(> [class*="col-"]):has(table, textarea, select[multiple], select[size], img) {
+  align-items: flex-start;
+}
+.row:not(.text-center):has(> [class*="col-"])::after { display: none; }   /* clearfix not needed */
+.row:not(.text-center) > [class*="col-"] {
+  float: none;
+  flex: 0 0 auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.row > [class*="col-"] > input.form-control,
+.row > [class*="col-"] > select.form-control,
+.row > [class*="col-"] > .text_box { width: 100%; box-sizing: border-box; }
+
+/* 2) Labels: one consistent look/gap above their control */
+.row > [class*="col-"] > b:first-child,
+.row > [class*="col-"] > label:first-child {
+  display: inline-block;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+/* 3) Controls: one height, one box model, text vertically centred */
+.form-control, .text_box, .lg-control, .dt-len, .dt-search input { box-sizing: border-box; }
+input.form-control, select.form-control, input.text_box, select.text_box,
+input.lg-control, select.lg-control { height: 34px; }
+select.form-control, select.lg-control, select.text_box { padding-top: 0; padding-bottom: 0; }
+input[type="file"].form-control, input[type="file"].text_box { height: auto; min-height: 34px; padding-top: 4px; padding-bottom: 4px; }
+
+/* 4) lg-* grid forms: cells stretch to the row height and their content
+      sits on the bottom edge, so inputs line up even when a label wraps. */
+.lg-form { align-items: end; }
+.lg-form > .lg-row, .lg-form > div { justify-content: flex-end; margin-bottom: 0; }
+.lg-form > div:has(> button.lg-btn) { justify-content: flex-end; }
+.lg-label { line-height: 1.3; }
+
+/* 5) Buttons: shared height + vertical centring, tidy groups */
+.btn, .lg-btn, .dt-exp { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; box-sizing: border-box; }
+.btn:not(.btn-sm):not(.btn-xs), .lg-btn { min-height: 34px; }
+.lg-btns, .dt-btns { align-items: center; }
+.row.text-center { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 10px; }
+.row.text-center > br, .lg-btns > br { display: none; }
+
+/* 6) Search / "show entries" bar */
+.dt-top { align-items: center; }
+.dt-left, .dt-search { align-items: center; }
+.dt-len, .dt-search input { height: 34px; }
+
+/* 7) Tables: consistent cell alignment and spacing around them */
+.table th, .table td, .lg-grid th, .lg-grid td, .dt-grid th, .dt-grid td { vertical-align: middle; }
+.table, .lg-grid, .dt-grid { box-sizing: border-box; }
+.lg-panel-body > .lg-grid, .lg-panel-body > .dt, .lg-panel-body > .lg-grid-wrapper { margin-top: 10px; }
+
+/* 8) Section headers + page gutters */
+.lg-panel-head, .panel-heading { box-sizing: border-box; }
+.lg-subhead { margin-top: 0; }
+.container-fluid, .container { box-sizing: border-box; }
+
+/* 9) Small screens: collapse to fewer columns, full-width controls */
+@media (max-width: 767px) {
+  .row:not(.text-center):has(> [class*="col-"]) { align-items: stretch; }
+  .row:not(.text-center) > [class*="col-"] { flex: 0 0 100%; width: 100% !important; margin-left: 0 !important; }
+  .row.text-center .btn { flex: 1 1 40%; }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  /* narrow tablets: 6-up rows become 3-up, 3-up rows stay readable */
+  .row:not(.text-center) > .col-sm-2 { width: 33.3333%; }
+  .row:not(.text-center) > .col-md-2 { width: 33.3333%; }
+}

@@ -1,0 +1,30 @@
+"use client";
+// authorised_signatory.aspx - "Authorised Signatory Approval" page (status 4 -> 6/7), own route.
+import CashVoucherApprovals from "@/components/CashVoucherApprovals";
+
+export default function AuthorisedSignatoryPage() {
+  const openHelp = () => {
+    window.open("/html/CompanyMaster.html", "popUpWindow",
+      "height=500,width=600,left=100,top=100,toolbar=no,menubar=no,location=no,directories=no,scrollbars=yes,status=No");
+  };
+  return (
+    <div className="container-fluid" style={{ fontSize: "10px" }}>
+      <div className="panel panel-primary" style={{ backgroundColor: "white" }}>
+        <div className="panel-heading">
+          <div className="row">
+            <div className="col-sm-1"></div>
+            <div className="col-sm-9">
+              <div style={{ color: "#fff", fontSize: "small" }} className="text-center text-uppercase"><b>Authorised Signatory Approval</b></div>
+            </div>
+            <div className="col-sm-2 text-right">
+              <button type="button" className="btn btn-link" style={{ color: "#fff", padding: 0 }} onClick={openHelp} title="Help">
+                <img src="/Images/help_ico.png" width="20" height="20" alt="Help" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <CashVoucherApprovals only="signatory" />
+      </div>
+    </div>
+  );
+}

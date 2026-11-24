@@ -1,0 +1,1865 @@
+[
+ {
+  "route": "/Home",
+  "files": [
+   "app/Home/page.tsx",
+   "components/Dashboard.tsx"
+  ],
+  "apis": [
+   "/api/hr/dashboard-summary/",
+   "/api/hr/employees",
+   "/api/masters/clients",
+   "/api/masters/units"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 254
+ },
+ {
+  "route": "/account/change-password",
+  "files": [
+   "app/account/change-password/page.tsx",
+   "components/ChangePassword.tsx"
+  ],
+  "apis": [
+   "/api/auth/me/change-password/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 170
+ },
+ {
+  "route": "/account/manage-role",
+  "files": [
+   "app/account/manage-role/page.tsx",
+   "components/ManageRole.tsx"
+  ],
+  "apis": [
+   "/api/auth/menus/",
+   "/api/auth/roles/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 259
+ },
+ {
+  "route": "/account/menu-master",
+  "files": [
+   "app/account/menu-master/page.tsx",
+   "components/MenuMaster.tsx",
+   "components/DataTable.tsx"
+  ],
+  "apis": [
+   "/api/auth/menus"
+  ],
+  "legacy_refs": [
+   "menuMaster.aspx"
+  ],
+  "fe_loc": 394
+ },
+ {
+  "route": "/account",
+  "files": [
+   "app/account/page.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [],
+  "fe_loc": 88
+ },
+ {
+  "route": "/account/user-management",
+  "files": [
+   "app/account/user-management/page.tsx",
+   "components/UserManagement.tsx"
+  ],
+  "apis": [
+   "/api/auth/roles/",
+   "/api/auth/users/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 272
+ },
+ {
+  "route": "/attendance/android-logs",
+  "files": [
+   "app/attendance/android-logs/page.tsx",
+   "components/AndroidLogReview.tsx"
+  ],
+  "apis": [
+   "/api/attendance/android-logs-portal"
+  ],
+  "legacy_refs": [
+   "Android_Attendances_Logs.aspx"
+  ],
+  "fe_loc": 332
+ },
+ {
+  "route": "/attendance/assignments",
+  "files": [
+   "app/attendance/assignments/page.tsx",
+   "components/AssignAttendancePolicy.tsx"
+  ],
+  "apis": [
+   "/api/attendance/assignments/",
+   "/api/attendance/assignments/assign/",
+   "/api/attendance/assignments/assignable_employees/",
+   "/api/attendance/policies/",
+   "/api/masters/clients/",
+   "/api/masters/units/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 252
+ },
+ {
+  "route": "/attendance/conveyance-download",
+  "files": [
+   "app/attendance/conveyance-download/page.tsx",
+   "components/DownloadConveyance.tsx"
+  ],
+  "apis": [
+   "/api/attendance/conveyance-download/",
+   "/api/masters/clients/",
+   "/api/masters/states/lookup/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 244
+ },
+ {
+  "route": "/attendance/policies",
+  "files": [
+   "app/attendance/policies/page.tsx",
+   "components/AttendancePolicyManager.tsx"
+  ],
+  "apis": [
+   "/api/attendance/policies"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 382
+ },
+ {
+  "route": "/attendance/punch-machine",
+  "files": [
+   "app/attendance/punch-machine/page.tsx"
+  ],
+  "apis": [
+   "/api/attendance/punch-machines/",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 272
+ },
+ {
+  "route": "/finance-dept",
+  "files": [
+   "app/finance-dept/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/cash-vouchers/",
+   "/api/transactions/cash-vouchers/available_balance/",
+   "/api/transactions/cash-vouchers/petty_cash/",
+   "/api/transactions/cash-vouchers/petty_cash_add/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 431
+ },
+ {
+  "route": "/hr/android-documents",
+  "files": [
+   "app/hr/android-documents/page.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [
+   "Emp_Document_Verification.aspx"
+  ],
+  "fe_loc": 8
+ },
+ {
+  "route": "/hr/approve-travel-plan",
+  "files": [
+   "app/hr/approve-travel-plan/page.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [
+   "app_rej_travelplan.aspx",
+   "p_app_rej_travelplan2.aspx"
+  ],
+  "fe_loc": 180
+ },
+ {
+  "route": "/hr/assign-travel-employee",
+  "files": [
+   "app/hr/assign-travel-employee/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/travel-emp-policies",
+   "/api/masters/travel-policies/for_assign/"
+  ],
+  "legacy_refs": [
+   "Travelling_Management.aspx"
+  ],
+  "fe_loc": 212
+ },
+ {
+  "route": "/hr/attendance-approval",
+  "files": [
+   "app/hr/attendance-approval/page.tsx"
+  ],
+  "apis": [
+   "/api/attendance/branch-approval/",
+   "/api/masters/clients/",
+   "/api/masters/states/lookup/",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [
+   "Days_approval.aspx"
+  ],
+  "fe_loc": 285
+ },
+ {
+  "route": "/hr/attendance-images",
+  "files": [
+   "app/hr/attendance-images/page.tsx",
+   "components/ExportButtons.tsx"
+  ],
+  "apis": [
+   "/api/attendance/attendance-images/",
+   "/api/masters/clients",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [
+   "tab_employee_attendance_details.aspx"
+  ],
+  "fe_loc": 258
+ },
+ {
+  "route": "/hr/attendance-request",
+  "files": [
+   "app/hr/attendance-request/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/client-requests/"
+  ],
+  "legacy_refs": [
+   "client_request_form.aspx",
+   "receiver.aspx"
+  ],
+  "fe_loc": 167
+ },
+ {
+  "route": "/hr/attendance-sheet",
+  "files": [
+   "app/hr/attendance-sheet/page.tsx"
+  ],
+  "apis": [
+   "/api/attendance/attendance-attachment/",
+   "/api/attendance/attendance-attachment/approve/",
+   "/api/attendance/attendance-attachment/upload/",
+   "/api/attendance/bulk-attendance/left-update/",
+   "/api/attendance/bulk-attendance/upload/",
+   "/api/attendance/conveyance-bill/",
+   "/api/attendance/conveyance-bill/upload/",
+   "/api/attendance/muster-sheet/",
+   "/api/attendance/ot-muster/",
+   "/api/attendance/ot-muster/save/",
+   "/api/masters/clients/",
+   "/api/masters/states/lookup/",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [
+   "emp_sample.aspx"
+  ],
+  "fe_loc": 1027
+ },
+ {
+  "route": "/hr/bulk-attendance",
+  "files": [
+   "app/hr/bulk-attendance/page.tsx"
+  ],
+  "apis": [
+   "/api/attendance/attendance-attachment/upload/",
+   "/api/attendance/bulk-attendance",
+   "/api/attendance/bulk-incentive",
+   "/api/masters/clients/",
+   "/api/masters/states/lookup/",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 303
+ },
+ {
+  "route": "/hr/client-dashboard",
+  "files": [
+   "app/hr/client-dashboard/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-dashboard/"
+  ],
+  "legacy_refs": [
+   "client_dashboard.aspx"
+  ],
+  "fe_loc": 78
+ },
+ {
+  "route": "/hr/departments",
+  "files": [
+   "app/hr/departments/page.tsx",
+   "components/HrExplorer.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [],
+  "fe_loc": 273
+ },
+ {
+  "route": "/hr/document-details",
+  "files": [
+   "app/hr/document-details/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/hr/document-details",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [
+   "Document_Details.aspx"
+  ],
+  "fe_loc": 316
+ },
+ {
+  "route": "/hr/document-verification",
+  "files": [
+   "app/hr/document-verification/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/document-verification"
+  ],
+  "legacy_refs": [
+   "Emp_Document_Verification.aspx"
+  ],
+  "fe_loc": 203
+ },
+ {
+  "route": "/hr/employee-compliance",
+  "files": [
+   "app/hr/employee-compliance/page.tsx",
+   "components/ExportButtons.tsx"
+  ],
+  "apis": [
+   "/api/hr/employee-compliance",
+   "/api/hr/employees/lookup/",
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [
+   "Employee_salary_details.aspx"
+  ],
+  "fe_loc": 657
+ },
+ {
+  "route": "/hr/employee-details",
+  "files": [
+   "app/hr/employee-details/page.tsx",
+   "components/EmployeeViewDetails.tsx"
+  ],
+  "apis": [
+   "/api/hr/employee-details",
+   "/api/hr/roles/"
+  ],
+  "legacy_refs": [
+   "Employee_view_details.aspx"
+  ],
+  "fe_loc": 1100
+ },
+ {
+  "route": "/hr/employee-email-update",
+  "files": [
+   "app/hr/employee-email-update/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/employees/",
+   "/api/masters/clients/",
+   "/api/masters/states/",
+   "/api/masters/units/"
+  ],
+  "legacy_refs": [
+   "employee_email_update.aspx"
+  ],
+  "fe_loc": 149
+ },
+ {
+  "route": "/hr/employees",
+  "files": [
+   "app/hr/employees/page.tsx",
+   "components/EmployeeMaster.tsx",
+   "components/ExportButtons.tsx"
+  ],
+  "apis": [
+   "/api/hr/document-details/",
+   "/api/hr/employee-details/",
+   "/api/hr/employee-documents/",
+   "/api/hr/employee-kyc",
+   "/api/hr/employees",
+   "/api/hr/roles/",
+   "/api/masters/client-designation-counts/lookup/",
+   "/api/masters/clients/",
+   "/api/masters/companies/",
+   "/api/masters/states/",
+   "/api/masters/states/lookup/",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [
+   "EmployeeMaster.aspx",
+   "p_upload_employee.aspx"
+  ],
+  "fe_loc": 2013
+ },
+ {
+  "route": "/hr/grades",
+  "files": [
+   "app/hr/grades/page.tsx",
+   "components/DesignationMaster.tsx",
+   "components/DataTable.tsx"
+  ],
+  "apis": [
+   "/api/hr/grades"
+  ],
+  "legacy_refs": [
+   "GradeMaster.aspx"
+  ],
+  "fe_loc": 406
+ },
+ {
+  "route": "/hr/help-desk",
+  "files": [
+   "app/hr/help-desk/page.tsx",
+   "components/HelpDeskPortal.tsx"
+  ],
+  "apis": [
+   "/api/masters/it-master/diagnostics/",
+   "/api/transactions/help-desk-portal"
+  ],
+  "legacy_refs": [
+   "help_desk.aspx"
+  ],
+  "fe_loc": 724
+ },
+ {
+  "route": "/hr/joining-letter",
+  "files": [
+   "app/hr/joining-letter/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/employees",
+   "/api/hr/letter-log/",
+   "/api/masters/clients",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [
+   "send_joining_letter.aspx"
+  ],
+  "fe_loc": 525
+ },
+ {
+  "route": "/hr/kyc",
+  "files": [
+   "app/hr/kyc/page.tsx",
+   "components/EmployeeKycManager.tsx"
+  ],
+  "apis": [
+   "/api/hr/employee-kyc/",
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 411
+ },
+ {
+  "route": "/hr/legal-compliance",
+  "files": [
+   "app/hr/legal-compliance/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/legal-compliance",
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 395
+ },
+ {
+  "route": "/hr/machine-maintenance",
+  "files": [
+   "app/hr/machine-maintenance/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/transactions/machine-options/",
+   "/api/transactions/machine-servicing/",
+   "/api/transactions/machine-tracking/"
+  ],
+  "legacy_refs": [
+   "Machin_Maintainance_Tracking.aspx"
+  ],
+  "fe_loc": 694
+ },
+ {
+  "route": "/hr/my-info",
+  "files": [
+   "app/hr/my-info/page.tsx"
+  ],
+  "apis": [
+   "/api/auth/me/",
+   "/api/hr/employees/"
+  ],
+  "legacy_refs": [
+   "EmployeeInfo.aspx"
+  ],
+  "fe_loc": 62
+ },
+ {
+  "route": "/hr/offer-letter",
+  "files": [
+   "app/hr/offer-letter/page.tsx",
+   "components/LetterManager.tsx"
+  ],
+  "apis": [
+   "/api/hr/offer-letters/"
+  ],
+  "legacy_refs": [
+   "Offerletter.aspx",
+   "send_joining_letter.aspx"
+  ],
+  "fe_loc": 113
+ },
+ {
+  "route": "/hr/operation-management",
+  "files": [
+   "app/hr/operation-management/page.tsx",
+   "components/OperationManagement.tsx"
+  ],
+  "apis": [
+   "/api/masters/clients/",
+   "/api/masters/states/lookup/",
+   "/api/masters/units/lookup/",
+   "/api/transactions/operation-assignments/",
+   "/api/transactions/operation-assignments/field_officers/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 422
+ },
+ {
+  "route": "/hr/pf-form",
+  "files": [
+   "app/hr/pf-form/page.tsx",
+   "components/PfForm.tsx"
+  ],
+  "apis": [
+   "/api/employees/pf-form/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 167
+ },
+ {
+  "route": "/hr/recruitment",
+  "files": [
+   "app/hr/recruitment/page.tsx",
+   "components/Recruitment.tsx"
+  ],
+  "apis": [
+   "/api/employees/recruitments/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 256
+ },
+ {
+  "route": "/hr/resource-recruitment",
+  "files": [
+   "app/hr/resource-recruitment/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/resource-recruitment"
+  ],
+  "legacy_refs": [
+   "ihms_employee_details.aspx"
+  ],
+  "fe_loc": 53
+ },
+ {
+  "route": "/hr/send-email",
+  "files": [
+   "app/hr/send-email/page.tsx"
+  ],
+  "apis": [
+   "/api/attendance/attendance-attachment/upload/",
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/transactions/send-email-page"
+  ],
+  "legacy_refs": [
+   "Pay_Send_Email.aspx"
+  ],
+  "fe_loc": 334
+ },
+ {
+  "route": "/hr/site-images",
+  "files": [
+   "app/hr/site-images/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/site-images/",
+   "/api/masters/clients",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [
+   "reliance_image_upload.aspx"
+  ],
+  "fe_loc": 233
+ },
+ {
+  "route": "/hr/softcopy-mail",
+  "files": [
+   "app/hr/softcopy-mail/page.tsx",
+   "components/SoftcopyMail.tsx"
+  ],
+  "apis": [
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/transactions/softcopy-config"
+  ],
+  "legacy_refs": [
+   "softcopy_email_send.aspx"
+  ],
+  "fe_loc": 520
+ },
+ {
+  "route": "/hr/system-backup",
+  "files": [
+   "app/hr/system-backup/page.tsx",
+   "components/BackupPortal.tsx",
+   "components/formkit.tsx"
+  ],
+  "apis": [
+   "/api/transactions/backup-portal"
+  ],
+  "legacy_refs": [
+   "Backup_Page.aspx",
+   "CompanyMaster.aspx",
+   "clientmaster.aspx"
+  ],
+  "fe_loc": 370
+ },
+ {
+  "route": "/hr/todo-list",
+  "files": [
+   "app/hr/todo-list/page.tsx",
+   "components/ToDoList.tsx"
+  ],
+  "apis": [
+   "/api/employees/todo/",
+   "/api/employees/todo/operation_schedule/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 337
+ },
+ {
+  "route": "/hr/todo",
+  "files": [
+   "app/hr/todo/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/todo/"
+  ],
+  "legacy_refs": [
+   "ToDoList.aspx"
+  ],
+  "fe_loc": 71
+ },
+ {
+  "route": "/hr/travel-plan",
+  "files": [
+   "app/hr/travel-plan/page.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [
+   "app_rej_travelplan.aspx"
+  ],
+  "fe_loc": 157
+ },
+ {
+  "route": "/hr/travel-policy",
+  "files": [
+   "app/hr/travel-policy/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/travel-policies/"
+  ],
+  "legacy_refs": [
+   "travel_policy_master.aspx"
+  ],
+  "fe_loc": 376
+ },
+ {
+  "route": "/hr/uniform-tracking",
+  "files": [
+   "app/hr/uniform-tracking/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/uniform-tracking"
+  ],
+  "legacy_refs": [
+   "Uniform_Tracking.aspx"
+  ],
+  "fe_loc": 53
+ },
+ {
+  "route": "/hr/working-images",
+  "files": [
+   "app/hr/working-images/page.tsx",
+   "components/WorkingImages.tsx"
+  ],
+  "apis": [
+   "/api/employees/working-images/",
+   "/api/masters/clients/",
+   "/api/masters/states/lookup/",
+   "/api/masters/units/lookup/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 240
+ },
+ {
+  "route": "/leave/applications",
+  "files": [
+   "app/leave/applications/page.tsx"
+  ],
+  "apis": [
+   "/api/leave/applications/",
+   "/api/leave/applications/my-balances/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 260
+ },
+ {
+  "route": "/leave/assign",
+  "files": [
+   "app/leave/assign/page.tsx"
+  ],
+  "apis": [
+   "/api/leave/assignments/",
+   "/api/leave/assignments/assign/",
+   "/api/leave/assignments/assignable_employees/",
+   "/api/leave/policies/",
+   "/api/masters/clients/",
+   "/api/masters/units/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 173
+ },
+ {
+  "route": "/leave",
+  "files": [
+   "app/leave/page.tsx",
+   "components/LeavePolicyManager.tsx"
+  ],
+  "apis": [
+   "/api/leave/policies"
+  ],
+  "legacy_refs": [
+   "LeaveMaster.aspx"
+  ],
+  "fe_loc": 378
+ },
+ {
+  "route": "/leave/requests",
+  "files": [
+   "app/leave/requests/page.tsx"
+  ],
+  "apis": [
+   "/api/leave/applications/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 147
+ },
+ {
+  "route": "/login",
+  "files": [
+   "app/login/page.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [],
+  "fe_loc": 69
+ },
+ {
+  "route": "/masters/bank",
+  "files": [
+   "app/masters/bank/page.tsx",
+   "components/MasterExplorer.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [],
+  "fe_loc": 210
+ },
+ {
+  "route": "/masters/branch-wise-rate",
+  "files": [
+   "app/masters/branch-wise-rate/page.tsx",
+   "components/BranchWiseRate.tsx",
+   "components/formkit.tsx"
+  ],
+  "apis": [
+   "/api/payroll/unit-grade-rates"
+  ],
+  "legacy_refs": [
+   "CompanyMaster.aspx",
+   "Unit_grade_rate_updation.aspx",
+   "clientmaster.aspx"
+  ],
+  "fe_loc": 277
+ },
+ {
+  "route": "/masters/client-access",
+  "files": [
+   "app/masters/client-access/page.tsx",
+   "components/ClientAccess.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-access"
+  ],
+  "legacy_refs": [
+   "client_access.aspx"
+  ],
+  "fe_loc": 406
+ },
+ {
+  "route": "/masters/client-assign",
+  "files": [
+   "app/masters/client-assign/page.tsx",
+   "components/ClientAssign.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-assigns"
+  ],
+  "legacy_refs": [
+   "Assign_Client.aspx"
+  ],
+  "fe_loc": 246
+ },
+ {
+  "route": "/masters/client-billing-details",
+  "files": [
+   "app/masters/client-billing-details/page.tsx",
+   "components/ClientBillingDetails.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [],
+  "fe_loc": 121
+ },
+ {
+  "route": "/masters/client-deductions",
+  "files": [
+   "app/masters/client-deductions/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-deductions",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 308
+ },
+ {
+  "route": "/masters/client-designation-counts",
+  "files": [
+   "app/masters/client-designation-counts/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-designation-counts",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 317
+ },
+ {
+  "route": "/masters/client-esic",
+  "files": [
+   "app/masters/client-esic/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-esic",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 311
+ },
+ {
+  "route": "/masters/client-feedback",
+  "files": [
+   "app/masters/client-feedback/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-feedback",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 311
+ },
+ {
+  "route": "/masters/client-services",
+  "files": [
+   "app/masters/client-services/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-services",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [
+   "clientmaster.aspx"
+  ],
+  "fe_loc": 309
+ },
+ {
+  "route": "/masters/client",
+  "files": [
+   "app/masters/client/page.tsx",
+   "components/ClientMaster.tsx",
+   "components/ExportButtons.tsx",
+   "components/formkit.tsx"
+  ],
+  "apis": [
+   "/api/hr/grades",
+   "/api/masters/bank-names/",
+   "/api/masters/client-bank-details",
+   "/api/masters/client-billing-details",
+   "/api/masters/client-deductions",
+   "/api/masters/client-designation-counts",
+   "/api/masters/client-esic",
+   "/api/masters/client-feedback",
+   "/api/masters/client-services",
+   "/api/masters/client-zone-rows",
+   "/api/masters/clients",
+   "/api/masters/company-images",
+   "/api/masters/states/",
+   "/api/masters/states/lookup/"
+  ],
+  "legacy_refs": [
+   "CompanyMaster.aspx",
+   "clientmaster.aspx"
+  ],
+  "fe_loc": 1493
+ },
+ {
+  "route": "/masters/company-images",
+  "files": [
+   "app/masters/company-images/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/company-images/"
+  ],
+  "legacy_refs": [
+   "CompanyMaster.aspx",
+   "clientmaster.aspx"
+  ],
+  "fe_loc": 72
+ },
+ {
+  "route": "/masters/company-reminder-emails",
+  "files": [
+   "app/masters/company-reminder-emails/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/company-reminder-emails",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 316
+ },
+ {
+  "route": "/masters/company-zone-rows",
+  "files": [
+   "app/masters/company-zone-rows/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/company-zone-rows",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 316
+ },
+ {
+  "route": "/masters/company",
+  "files": [
+   "app/masters/company/page.tsx",
+   "components/CompanyMaster.tsx",
+   "components/DataTable.tsx",
+   "components/formkit.tsx"
+  ],
+  "apis": [
+   "/api/masters/companies",
+   "/api/masters/company-images",
+   "/api/masters/company-reminder-emails/",
+   "/api/masters/company-zone-rows",
+   "/api/masters/states/lookup/"
+  ],
+  "legacy_refs": [
+   "CompanyMaster.aspx",
+   "clientmaster.aspx"
+  ],
+  "fe_loc": 1695
+ },
+ {
+  "route": "/masters/consumable-material",
+  "files": [
+   "app/masters/consumable-material/page.tsx",
+   "components/ConsumableMaterialMaster.tsx"
+  ],
+  "apis": [
+   "/api/masters/clients/",
+   "/api/masters/consumable-materials/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 202
+ },
+ {
+  "route": "/masters/department",
+  "files": [
+   "app/masters/department/page.tsx",
+   "components/DepartmentMaster.tsx",
+   "components/DataTable.tsx"
+  ],
+  "apis": [
+   "/api/masters/departments"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 446
+ },
+ {
+  "route": "/masters/holiday",
+  "files": [
+   "app/masters/holiday/page.tsx",
+   "components/HolidayMaster.tsx",
+   "components/DataTable.tsx"
+  ],
+  "apis": [
+   "/api/masters/departments",
+   "/api/masters/holidays",
+   "/api/masters/units"
+  ],
+  "legacy_refs": [
+   "HolidayMaster.aspx"
+  ],
+  "fe_loc": 426
+ },
+ {
+  "route": "/masters/hsn-master",
+  "files": [
+   "app/masters/hsn-master/page.tsx",
+   "components/HsnMaster.tsx"
+  ],
+  "apis": [
+   "/api/masters/gst-rates/",
+   "/api/masters/hsn-masters/"
+  ],
+  "legacy_refs": [
+   "hsn_master.aspx"
+  ],
+  "fe_loc": 191
+ },
+ {
+  "route": "/masters/income-tax",
+  "files": [
+   "app/masters/income-tax/page.tsx",
+   "components/IncomeTaxMaster.tsx",
+   "components/formkit.tsx"
+  ],
+  "apis": [
+   "/api/payroll/income-tax"
+  ],
+  "legacy_refs": [
+   "CompanyMaster.aspx",
+   "Income_Tax.aspx",
+   "clientmaster.aspx"
+  ],
+  "fe_loc": 371
+ },
+ {
+  "route": "/masters/it-master",
+  "files": [
+   "app/masters/it-master/page.tsx",
+   "components/ITMaster.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [
+   "ITMASTER.aspx",
+   "Income_Tax.aspx"
+  ],
+  "fe_loc": 118
+ },
+ {
+  "route": "/masters/item-master",
+  "files": [
+   "app/masters/item-master/page.tsx",
+   "components/ItemMaster.tsx"
+  ],
+  "apis": [
+   "/api/masters/item-gst-rates/",
+   "/api/masters/item-hsn-codes/",
+   "/api/masters/item-masters/",
+   "/api/masters/item-masters/new-code/",
+   "/api/masters/item-sizes/",
+   "/api/masters/item-units-lookup/"
+  ],
+  "legacy_refs": [
+   "Itemmaster.aspx"
+  ],
+  "fe_loc": 522
+ },
+ {
+  "route": "/masters/item-unit",
+  "files": [
+   "app/masters/item-unit/page.tsx",
+   "components/ItemUnitMaster.tsx"
+  ],
+  "apis": [
+   "/api/masters/item-units/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 143
+ },
+ {
+  "route": "/masters/leave",
+  "files": [
+   "app/masters/leave/page.tsx",
+   "components/MasterExplorer.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [],
+  "fe_loc": 211
+ },
+ {
+  "route": "/masters/lwf-master",
+  "files": [
+   "app/masters/lwf-master/page.tsx",
+   "components/LwfMaster.tsx"
+  ],
+  "apis": [
+   "/api/masters/lwf-masters/",
+   "/api/masters/lwf-masters/new-lwf-id/"
+  ],
+  "legacy_refs": [
+   "lwf_master.aspx"
+  ],
+  "fe_loc": 239
+ },
+ {
+  "route": "/masters/pt-slab",
+  "files": [
+   "app/masters/pt-slab/page.tsx",
+   "components/PtSlabMaster.tsx",
+   "components/formkit.tsx"
+  ],
+  "apis": [
+   "/api/payroll/slabs"
+  ],
+  "legacy_refs": [
+   "CompanyMaster.aspx",
+   "PTSlabMaster.aspx",
+   "clientmaster.aspx"
+  ],
+  "fe_loc": 297
+ },
+ {
+  "route": "/masters/service-category",
+  "files": [
+   "app/masters/service-category/page.tsx",
+   "components/ServicePortal.tsx"
+  ],
+  "apis": [
+   "/api/masters/service-portal"
+  ],
+  "legacy_refs": [
+   "Add_New_Complaints.aspx",
+   "Complaint_category.aspx",
+   "IHMS_Services.aspx"
+  ],
+  "fe_loc": 636
+ },
+ {
+  "route": "/masters/shift-calendar",
+  "files": [
+   "app/masters/shift-calendar/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/shift-calendar"
+  ],
+  "legacy_refs": [
+   "shift_calender.aspx"
+  ],
+  "fe_loc": 65
+ },
+ {
+  "route": "/masters/shift",
+  "files": [
+   "app/masters/shift/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/shifts",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 312
+ },
+ {
+  "route": "/masters/site-audit",
+  "files": [
+   "app/masters/site-audit/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/site-audits",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [
+   "site_audit_detail.aspx"
+  ],
+  "fe_loc": 316
+ },
+ {
+  "route": "/masters/state",
+  "files": [
+   "app/masters/state/page.tsx",
+   "components/StateMaster.tsx",
+   "components/DataTable.tsx"
+  ],
+  "apis": [
+   "/api/masters/state-names",
+   "/api/masters/states"
+  ],
+  "legacy_refs": [
+   "StateMaster.aspx"
+  ],
+  "fe_loc": 530
+ },
+ {
+  "route": "/masters/task-master",
+  "files": [
+   "app/masters/task-master/page.tsx",
+   "components/TaskMaster.tsx"
+  ],
+  "apis": [
+   "/api/masters/task-master"
+  ],
+  "legacy_refs": [
+   "task_master.aspx"
+  ],
+  "fe_loc": 496
+ },
+ {
+  "route": "/masters/unit",
+  "files": [
+   "app/masters/unit/page.tsx",
+   "components/BranchMaster.tsx",
+   "components/ExportButtons.tsx",
+   "components/formkit.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-designation-counts/lookup/",
+   "/api/masters/client-services",
+   "/api/masters/clients/",
+   "/api/masters/company-images",
+   "/api/masters/states/",
+   "/api/masters/states/lookup/",
+   "/api/masters/unit-zone-rows",
+   "/api/masters/units"
+  ],
+  "legacy_refs": [
+   "CompanyMaster.aspx",
+   "UnitMaster.aspx",
+   "clientmaster.aspx"
+  ],
+  "fe_loc": 1302
+ },
+ {
+  "route": "/masters/vendor-master",
+  "files": [
+   "app/masters/vendor-master/page.tsx",
+   "components/VendorPortal.tsx"
+  ],
+  "apis": [
+   "/api/masters/vendor-portal"
+  ],
+  "legacy_refs": [
+   "VendorMaster.aspx"
+  ],
+  "fe_loc": 1235
+ },
+ {
+  "route": "/masters/zone",
+  "files": [
+   "app/masters/zone/page.tsx",
+   "components/MasterExplorer.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [],
+  "fe_loc": 217
+ },
+ {
+  "route": "/",
+  "files": [
+   "app/page.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [],
+  "fe_loc": 5
+ },
+ {
+  "route": "/password-setup",
+  "files": [
+   "app/password-setup/page.tsx"
+  ],
+  "apis": [],
+  "legacy_refs": [],
+  "fe_loc": 57
+ },
+ {
+  "route": "/payroll/advance-policy",
+  "files": [
+   "app/payroll/advance-policy/page.tsx",
+   "components/AdvancePolicy.tsx",
+   "components/ExportButtons.tsx"
+  ],
+  "apis": [
+   "/api/hr/employees/lookup/",
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/payroll/advance-policy",
+   "/api/payroll/vendor-advance"
+  ],
+  "legacy_refs": [
+   "advance_policy.aspx"
+  ],
+  "fe_loc": 819
+ },
+ {
+  "route": "/payroll/client-billing",
+  "files": [
+   "app/payroll/client-billing/page.tsx",
+   "components/ClientBilling.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-billing-details/lookup/",
+   "/api/masters/client-designation-counts/lookup/",
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/payroll/client-billing/",
+   "/api/payroll/client-billing/arrears-process/",
+   "/api/payroll/client-billing/bill-documents/",
+   "/api/payroll/client-billing/compute-attendance/",
+   "/api/payroll/client-billing/conveyance-driver-process/",
+   "/api/payroll/client-billing/conveyance-process/",
+   "/api/payroll/client-billing/dispatch-invoices/",
+   "/api/payroll/client-billing/final-yearly-bill/",
+   "/api/payroll/client-billing/generate-einvoice/",
+   "/api/payroll/client-billing/generate/"
+  ],
+  "legacy_refs": [
+   "grade_unit_billing.aspx"
+  ],
+  "fe_loc": 1330
+ },
+ {
+  "route": "/payroll/less-attendance",
+  "files": [
+   "app/payroll/less-attendance/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/bank-names/",
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/payroll/salary-payment"
+  ],
+  "legacy_refs": [
+   "grade_unit_salary.aspx"
+  ],
+  "fe_loc": 891
+ },
+ {
+  "route": "/payroll/month-end",
+  "files": [
+   "app/payroll/month-end/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/payroll/month-end/"
+  ],
+  "legacy_refs": [
+   "MonthEndProcess.aspx"
+  ],
+  "fe_loc": 205
+ },
+ {
+  "route": "/payroll/paypro-upload",
+  "files": [
+   "app/payroll/paypro-upload/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/clients/",
+   "/api/payroll/paypro-upload"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 258
+ },
+ {
+  "route": "/payroll/policy-master",
+  "files": [
+   "app/payroll/policy-master/page.tsx",
+   "components/ExportButtons.tsx"
+  ],
+  "apis": [
+   "/api/masters/client-designation-counts/lookup/",
+   "/api/masters/clients/",
+   "/api/masters/item-masters/",
+   "/api/masters/state-allowance/",
+   "/api/masters/units/lookup/",
+   "/api/payroll/billing-master/",
+   "/api/payroll/machine-rental-details/"
+  ],
+  "legacy_refs": [
+   "BillingDetails.aspx"
+  ],
+  "fe_loc": 1200
+ },
+ {
+  "route": "/payroll/salary-slip",
+  "files": [
+   "app/payroll/salary-slip/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/employees/lookup/",
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/payroll/salary-slip-actions"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 322
+ },
+ {
+  "route": "/payroll/staff-salary-details",
+  "files": [
+   "app/payroll/staff-salary-details/page.tsx"
+  ],
+  "apis": [
+   "/api/hr/employees/lookup/",
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/payroll/staff-salary-details"
+  ],
+  "legacy_refs": [
+   "staff_salary_details.aspx"
+  ],
+  "fe_loc": 371
+ },
+ {
+  "route": "/payroll/staff-salary-structure",
+  "files": [
+   "app/payroll/staff-salary-structure/page.tsx",
+   "components/MasterCrudManager.tsx"
+  ],
+  "apis": [
+   "/api/masters/states",
+   "/api/payroll/staff-salary-structure"
+  ],
+  "legacy_refs": [
+   "staff_salary_structure.aspx"
+  ],
+  "fe_loc": 327
+ },
+ {
+  "route": "/payroll/stipend-business",
+  "files": [
+   "app/payroll/stipend-business/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/payroll/stipend-business"
+  ],
+  "legacy_refs": [
+   "Stipend_emp_business.aspx"
+  ],
+  "fe_loc": 237
+ },
+ {
+  "route": "/reports",
+  "files": [
+   "app/reports/page.tsx",
+   "components/MdReports.tsx"
+  ],
+  "apis": [
+   "/api/reports/salary-reports/md"
+  ],
+  "legacy_refs": [
+   "all_reports.aspx"
+  ],
+  "fe_loc": 724
+ },
+ {
+  "route": "/reports/portal-ho",
+  "files": [
+   "app/reports/portal-ho/page.tsx",
+   "components/HoPortal.tsx"
+  ],
+  "apis": [
+   "/api/auth/me/",
+   "/api/masters/portal/ho"
+  ],
+  "legacy_refs": [
+   "HO_Login.aspx"
+  ],
+  "fe_loc": 1424
+ },
+ {
+  "route": "/reports/portal-region",
+  "files": [
+   "app/reports/portal-region/page.tsx",
+   "components/PortalDashboard.tsx"
+  ],
+  "apis": [
+   "/api/masters/portal/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 60
+ },
+ {
+  "route": "/reports/portal-unit",
+  "files": [
+   "app/reports/portal-unit/page.tsx",
+   "components/UnitPortal.tsx"
+  ],
+  "apis": [
+   "/api/masters/portal/unit"
+  ],
+  "legacy_refs": [
+   "Unit_Login.aspx"
+  ],
+  "fe_loc": 1084
+ },
+ {
+  "route": "/reports/portal-zone",
+  "files": [
+   "app/reports/portal-zone/page.tsx",
+   "components/PortalDashboard.tsx"
+  ],
+  "apis": [
+   "/api/masters/portal/"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 60
+ },
+ {
+  "route": "/reports/salary",
+  "files": [
+   "app/reports/salary/page.tsx",
+   "components/SalaryReports.tsx"
+  ],
+  "apis": [
+   "/api/reports/salary-reports"
+  ],
+  "legacy_refs": [
+   "reports_main.aspx"
+  ],
+  "fe_loc": 642
+ },
+ {
+  "route": "/reports/search",
+  "files": [
+   "app/reports/search/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/search"
+  ],
+  "legacy_refs": [
+   "Datatable.aspx"
+  ],
+  "fe_loc": 41
+ },
+ {
+  "route": "/reports/shift-reports",
+  "files": [
+   "app/reports/shift-reports/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/shift-reports/"
+  ],
+  "legacy_refs": [
+   "shift_report.aspx"
+  ],
+  "fe_loc": 41
+ },
+ {
+  "route": "/transactions/account-reports",
+  "files": [
+   "app/transactions/account-reports/page.tsx",
+   "components/AccountReports.tsx"
+  ],
+  "apis": [
+   "/api/reports/salary-reports",
+   "/api/transactions/account-portal",
+   "/api/transactions/account-portal/payment-file/",
+   "/api/transactions/account-portal/receipt-file/"
+  ],
+  "legacy_refs": [
+   "account_reports.aspx"
+  ],
+  "fe_loc": 1120
+ },
+ {
+  "route": "/transactions/approve-claims",
+  "files": [
+   "app/transactions/approve-claims/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/expense-claims/",
+   "/api/transactions/travel-plans/"
+  ],
+  "legacy_refs": [
+   "app_rej_claim.aspx",
+   "p_app_rej_claim.aspx"
+  ],
+  "fe_loc": 310
+ },
+ {
+  "route": "/transactions/bank-statement",
+  "files": [
+   "app/transactions/bank-statement/page.tsx",
+   "components/BankPortal.tsx"
+  ],
+  "apis": [
+   "/api/transactions/account-portal/bill-file/",
+   "/api/transactions/account-portal/receipt-file/",
+   "/api/transactions/bank-portal"
+  ],
+  "legacy_refs": [
+   "balance_sheet_accounting.aspx"
+  ],
+  "fe_loc": 848
+ },
+ {
+  "route": "/transactions/cash-voucher",
+  "files": [
+   "app/transactions/cash-voucher/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/cash-vouchers"
+  ],
+  "legacy_refs": [
+   "cash_voucher1.aspx",
+   "finance_dept.aspx"
+  ],
+  "fe_loc": 212
+ },
+ {
+  "route": "/transactions/consumable-dispatch",
+  "files": [
+   "app/transactions/consumable-dispatch/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/consumable-dispatch/"
+  ],
+  "legacy_refs": [
+   "consumable.aspx"
+  ],
+  "fe_loc": 61
+ },
+ {
+  "route": "/transactions/credit-note",
+  "files": [
+   "app/transactions/credit-note/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/credit-notes/",
+   "/api/transactions/manual-invoices/"
+  ],
+  "legacy_refs": [
+   "credit_note.aspx"
+  ],
+  "fe_loc": 150
+ },
+ {
+  "route": "/transactions/expense-claim",
+  "files": [
+   "app/transactions/expense-claim/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/travel-emp-policies/my_policy/",
+   "/api/transactions/expense-claims/",
+   "/api/transactions/travel-plans/"
+  ],
+  "legacy_refs": [
+   "apply_expencess.aspx",
+   "p_add_expencess1.aspx",
+   "p_add_new_travel_plan2.aspx"
+  ],
+  "fe_loc": 953
+ },
+ {
+  "route": "/transactions/goods-receipt",
+  "files": [
+   "app/transactions/goods-receipt/page.tsx"
+  ],
+  "apis": [
+   "/api/masters/item-units-lookup/",
+   "/api/transactions/goods-receipts/",
+   "/api/transactions/grn-lookups/"
+  ],
+  "legacy_refs": [
+   "InventoryPurchaseBill.aspx"
+  ],
+  "fe_loc": 1618
+ },
+ {
+  "route": "/transactions/gst-register",
+  "files": [
+   "app/transactions/gst-register/page.tsx",
+   "components/GstPortal.tsx"
+  ],
+  "apis": [
+   "/api/transactions/gst-portal"
+  ],
+  "legacy_refs": [
+   "GSTReports.aspx"
+  ],
+  "fe_loc": 259
+ },
+ {
+  "route": "/transactions/invoice-search",
+  "files": [
+   "app/transactions/invoice-search/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/search-invoice"
+  ],
+  "legacy_refs": [
+   "search_invoice.aspx"
+  ],
+  "fe_loc": 134
+ },
+ {
+  "route": "/transactions/outstanding-report",
+  "files": [
+   "app/transactions/outstanding-report/page.tsx",
+   "components/OutstandingPortal.tsx"
+  ],
+  "apis": [
+   "/api/transactions/outstanding-portal"
+  ],
+  "legacy_refs": [
+   "Outstanding_Report.aspx"
+  ],
+  "fe_loc": 216
+ },
+ {
+  "route": "/transactions",
+  "files": [
+   "app/transactions/page.tsx",
+   "components/InvoiceManager.tsx"
+  ],
+  "apis": [
+   "/api/transactions/invoices"
+  ],
+  "legacy_refs": [],
+  "fe_loc": 184
+ },
+ {
+  "route": "/transactions/payment-history",
+  "files": [
+   "app/transactions/payment-history/page.tsx",
+   "components/PaymentHistory.tsx"
+  ],
+  "apis": [
+   "/api/masters/clients/",
+   "/api/masters/states/lookup/",
+   "/api/masters/task-master/salary_search/",
+   "/api/transactions/payment-history"
+  ],
+  "legacy_refs": [
+   "payment_history.aspx"
+  ],
+  "fe_loc": 240
+ },
+ {
+  "route": "/transactions/purchase-order",
+  "files": [
+   "app/transactions/purchase-order/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/purchase-orders/"
+  ],
+  "legacy_refs": [
+   "purchase_order.aspx"
+  ],
+  "fe_loc": 171
+ },
+ {
+  "route": "/transactions/reprint-invoice",
+  "files": [
+   "app/transactions/reprint-invoice/page.tsx",
+   "components/formkit.tsx"
+  ],
+  "apis": [
+   "/api/masters/clients/",
+   "/api/masters/units/lookup/",
+   "/api/transactions/gst-register/",
+   "/api/transactions/search-invoice/reprint/"
+  ],
+  "legacy_refs": [
+   "CompanyMaster.aspx",
+   "clientmaster.aspx",
+   "reprint_invoice.aspx"
+  ],
+  "fe_loc": 198
+ },
+ {
+  "route": "/transactions/return-material",
+  "files": [
+   "app/transactions/return-material/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/invoices/",
+   "/api/transactions/return-materials/"
+  ],
+  "legacy_refs": [
+   "Return_material.aspx"
+  ],
+  "fe_loc": 124
+ },
+ {
+  "route": "/transactions/sales-order",
+  "files": [
+   "app/transactions/sales-order/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/invoices/"
+  ],
+  "legacy_refs": [
+   "Transaction.aspx"
+  ],
+  "fe_loc": 93
+ },
+ {
+  "route": "/transactions/stock",
+  "files": [
+   "app/transactions/stock/page.tsx"
+  ],
+  "apis": [
+   "/api/transactions/stock-report/"
+  ],
+  "legacy_refs": [
+   "ItemInventoryquery.aspx"
+  ],
+  "fe_loc": 71
+ }
+]

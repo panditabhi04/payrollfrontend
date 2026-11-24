@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next
+.next/
+out/
+build/
+next-env.d.ts
+
+# env — never commit real values
+.env
+.env.local
+.env*.local
+!.env.example
+
+# misc
+*.log
+.DS_Store
+Thumbs.db
+webroker/firebase-service-account.json

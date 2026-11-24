@@ -1,0 +1,52 @@
+/* Employee Attendance (attendance-sheet) — presentation only. */
+
+/* soft studio backdrop instead of the old beige */
+.at-body {
+  background: linear-gradient(180deg, #e9edf8 0%, #f4f6fc 240px, #f8f9fd 100%);
+  border-radius: 0 0 16px 16px;
+}
+
+/* tabs: pill tray, active tab is a raised brand key */
+.at-tabs {
+  list-style: none; margin: 0 0 14px; padding: 6px; display: flex; flex-wrap: wrap; gap: 6px;
+  background: linear-gradient(180deg, #dfe4f5, #d1d8ee);
+  border-radius: 14px;
+  box-shadow: 0 2px 5px rgba(27, 37, 71, .14) inset, 0 1px 0 #fff;
+}
+.at-tab {
+  display: block; padding: 9px 16px; border-radius: 10px; text-decoration: none; cursor: pointer;
+  font-size: 13px; font-weight: 600; color: #3a4778; background: transparent; border: 0;
+  transition: background .15s ease, transform .15s ease, box-shadow .15s ease, color .15s ease;
+}
+.at-tab:hover { background: rgba(255, 255, 255, .75); transform: translateY(-1px); color: #1b2547; }
+.at-tab.on {
+  color: #fff; text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+  background: linear-gradient(180deg, #6b79b8 0%, #4a5688 55%, #3e4a7a 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .4) inset, 0 3px 0 #28325a, 0 8px 12px rgba(27, 37, 71, .28);
+  transform: translateY(-1px);
+}
+
+/* content pane: a raised white card */
+.at-pane {
+  background: #fff; border: 1px solid #dde2f1; border-radius: 16px; padding: 22px;
+  box-shadow: 0 1px 0 #fff inset, 0 4px 0 -1px #cfd6ec, 0 14px 28px -8px rgba(27, 37, 71, .20);
+}
+
+/* Step 2 toolbar + colour legend */
+.at-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.at-step { font-weight: 700; font-size: 15px; color: #2f3a6a; letter-spacing: .01em; padding-left: 12px; border-left: 4px solid #5a67a3; }
+.at-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 10px 12px; border-radius: 12px; background: #f1f4fb; box-shadow: 0 2px 4px rgba(27, 37, 71, .08) inset; font-size: 12px; }
+.at-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 5px; border-radius: 999px; background: #fff; box-shadow: 0 1px 0 #fff inset, 0 2px 3px rgba(27, 37, 71, .12); color: #3a4778; }
+.at-chip b { color: #1b2547; }
+.at-swatch { width: 16px; height: 16px; display: inline-block; border-radius: 5px; box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset, 0 1px 2px rgba(0, 0, 0, .25); }
+
+/* the day grid: tidier selects and sticky first columns feel */
+.at-pane table select.form-control, .at-pane table select {
+  border-radius: 6px; font-size: 12px; padding: 0 2px; height: 26px; min-width: 52px;
+}
+.at-pane .table > tbody > tr > td { padding-top: 5px !important; padding-bottom: 5px !important; }
+
+@media (max-width: 767px) {
+  .at-tab { padding: 8px 11px; font-size: 12px; }
+  .at-pane { padding: 14px; }
+}

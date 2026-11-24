@@ -1,0 +1,572 @@
+/* =====================================================================
+ * IHMS legacy skin — faithful port of the old Celtpayroll look.
+ * Source: MasterPage.master + css/style.css + Bootstrap grids.
+ *   menu/navbar ......... #616161 grey bar, white bold menu
+ *   panel heading ....... white -> #424D7A -> white gradient, centered white title
+ *   tabs ................ #424D7A / white text, active white / #424D7A text
+ *   primary buttons ..... green #00b712 (85x40 bold), danger red, hover inverts
+ *   grids ............... #006699 white-bold-uppercase headers, #000066 rows
+ *   form wrap ........... #f3f1fe rounded box
+ *   footer .............. #cccccc "Copyright © 2020 CeltSoft"
+ *   font ................ Verdana (legacy body font)
+ * ===================================================================== */
+:root {
+  --brand: #424D7A;        /* legacy slate-blue (tabs / headings) */
+  --brand-accent: #424D7A;
+  --brand-hover: #343c63;
+  --legacy-green: #00b712;  /* legacy .btn-primary */
+  --legacy-red: #ff0000;    /* legacy .btn-danger */
+  --grid-head: #006699;     /* legacy GridView HeaderStyle */
+  --grid-text: #000066;     /* legacy GridView RowStyle */
+  --grid-sel: #669999;      /* legacy SelectedRowStyle */
+  --nav-grey: #616161;      /* legacy master navbar */
+  --form-wrap: #f3f1fe;     /* legacy form container */
+  --page-bg: #ffffff;
+  --card-bg: #ffffff;
+  --border: #ddd;
+  --text: #333333;
+  --muted: #777777;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 12px;
+}
+
+a { color: var(--brand-accent); }
+
+/* ---- app shell (legacy grey navbar, MasterPage.master) ---- */
+.app-header {
+  background: var(--nav-grey);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 18px;
+  min-height: 50px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.app-brand {
+  font-weight: 700;
+  font-size: 13px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.app-nav { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; }
+.app-nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: Helvetica, Arial, sans-serif;
+  white-space: nowrap;
+}
+.app-nav a:hover { background: var(--nav-grey); color: #fff; font-weight: 700; }
+.app-nav a.active { background: #fff; color: var(--nav-grey); }
+.app-user { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.app-user .who { font-size: 12px; color: #fff; }
+.app-user .avatar {
+  width: 40px; height: 40px; border-radius: 50px;
+  background: #45619D; color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 12px; cursor: pointer;
+}
+.app-btn {
+  padding: 6px 12px; border: 1px solid #fff; background: transparent;
+  color: #fff; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 700;
+}
+.app-btn:hover { background: #fff; color: var(--nav-grey); }
+
+.app-content {
+  max-width: 1280px;
+  margin: 12px auto;
+  padding: 0 15px;
+  background: transparent;
+  border: none;
+  min-height: 60vh;
+}
+
+.app-footer {
+  background-color: #cccccc;
+  padding: 10px;
+  text-align: center;
+  color: #333;
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+/* base polish for headings inside content */
+.app-content h1 { font-size: 18px; margin: 0 0 8px; }
+.app-content h2 { font-size: 15px; }
+
+/* ---- legacy master screens (panel-primary + form-control + grids) ---- */
+.lg-panel { border: 1px solid #337ab7; border-radius: 4px; overflow: hidden; background: #fff; margin-bottom: 20px; margin-top: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.lg-panel-head {
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(66,77,122,1) 35%, rgba(255,255,255,1) 100%);
+  border-color: #337ab7;
+  color: #fff; font-weight: 700; font-size: small;
+  padding: 20px; letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.lg-panel-body { padding: 15px; }
+.lg-subhead {
+  color: #333; font-weight: 700; font-size: 14px; padding: 6px 0;
+  margin: 0 0 10px 0;
+}
+.lg-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; margin-bottom: 12px; background: var(--form-wrap); border-radius: 10px; border: 1px solid #fff; padding: 15px; }
+.lg-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+.lg-label { font-weight: 700; font-size: 12px; color: #333; }
+.lg-req { color: #ff0000; }
+.lg-control {
+  display: block; width: 100%; height: 34px;
+  padding: 6px 12px; font-size: 12px; line-height: 1.42857143; color: #555;
+  background-color: #fff; border: 1px solid #ccc; border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+textarea.lg-control { height: auto; }
+.lg-control:focus { outline: none; border-color: #66afe9; box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6); }
+
+/* Fallback for raw inputs in scaffolded pages */
+.lg-panel-body input:not([type="checkbox"]):not([type="radio"]):not([class]),
+.lg-panel-body select:not([class]) {
+  height: 34px; padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; margin: 2px 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.lg-panel-body input:not([type="checkbox"]):not([type="radio"]):not([class]):focus,
+.lg-panel-body select:not([class]):focus { outline: none; border-color: #66afe9; }
+
+/* ---- legacy buttons: green primary, red danger, white-invert hover ---- */
+.lg-btns { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
+.lg-btn, .lg-panel-body button:not([class]) {
+  padding: 6px 12px; border: 1px solid #ccc; background: #fff; color: #333;
+  border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 400; text-decoration: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.lg-btn:hover, .lg-panel-body button:not([class]):hover { background: #e6e6e6; border-color: #adadad; }
+.lg-btn:disabled, .lg-panel-body button:not([class]):disabled { opacity: .65; cursor: not-allowed; }
+.lg-btn-primary, .lg-btn-green {
+  background-color: var(--legacy-green); border: none; color: #fff;
+  font-size: 15px; font-weight: 700; min-width: 85px; min-height: 40px;
+}
+.lg-btn-primary:hover, .lg-btn-green:hover {
+  background-color: #fff; color: var(--legacy-green);
+  font-weight: 700; border: 2px solid var(--legacy-green);
+}
+.lg-btn-danger, .lg-btn-red {
+  background-color: var(--legacy-red); border: none; color: #fff;
+  font-size: 15px; font-weight: 700; min-width: 70px; min-height: 40px;
+}
+.lg-btn-danger:hover, .lg-btn-red:hover {
+  background-color: #fff; color: var(--legacy-red);
+  font-weight: 700; border: 2px solid var(--legacy-red);
+}
+.lg-btns.center { justify-content: center; gap: 10px; }
+.lg-btns.center .lg-btn { padding: 8px 22px; font-size: 15px; border-radius: 4px; }
+
+/* ---- legacy GridView look (#006699 headers, #000066 rows) ---- */
+.lg-grid { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; }
+.lg-grid th {
+  background: var(--grid-head); color: #fff; text-align: left; padding: 8px 10px; font-size: 12px;
+  font-weight: 700; text-transform: uppercase; border: 1px solid #CCCCCC;
+}
+.lg-grid td { padding: 7px 10px; border: 1px solid #CCCCCC; color: var(--grid-text); background: #ffffff; }
+.lg-grid tbody tr:hover td { background: #EFF3FB; }
+.lg-grid tr.lg-selected td { background: var(--grid-sel) !important; color: #fff !important; font-weight: 700; }
+.lg-alert { background: #dff0d8; border: 1px solid #b2dba1; color: #3c763d; padding: 8px 10px; border-radius: 4px; margin-bottom: 10px; }
+
+/* ---- legacy DataTables look ---- */
+.dt { margin-top: 8px; }
+.dt-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.dt-left, .dt-search { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+.dt-len { padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; height: 34px; }
+.dt-search input { padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; height: 34px; }
+.dt-btns { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+.dt-exp { background: #5bc0de; color: #fff; border: 1px solid #46b8da; border-radius: 4px; padding: 5px 12px; font-size: 12px; cursor: pointer; }
+.dt-exp:hover { background: #31b0d5; border-color: #269abc; }
+.dt-colmenu { position: absolute; top: 30px; left: 0; background: #fff; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 6px 12px rgba(0,0,0,.175); z-index: 50; padding: 5px 0; min-width: 160px; }
+.dt-grid { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; }
+.dt-grid th { background: var(--grid-head); color: #fff; text-align: left; padding: 8px; font-weight: 700; border: 1px solid #CCCCCC; text-transform: uppercase; user-select: none; }
+.dt-grid td { padding: 8px; border: 1px solid #CCCCCC; color: var(--grid-text); background: #ffffff; }
+.dt-grid tbody tr:hover td { background: #EFF3FB; }
+.dt-grid tr.dt-selected td { background: var(--grid-sel) !important; color: #fff !important; font-weight: 700; }
+.dt-sort { font-size: 10px; opacity: .8; }
+.dt-foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 10px; font-size: 12px; color: #555; }
+.dt-page { display: flex; align-items: center; gap: 8px; }
+.dt-page button { padding: 5px 12px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; }
+.dt-page button:disabled { opacity: .5; cursor: not-allowed; }
+.dt-pagenum { font-weight: 600; }
+
+/* ---- legacy IHMS top menu (grey bar + dropdowns, MasterPage.master) ---- */
+.ihms-header {
+  background: var(--nav-grey); color: #fff; display: flex; align-items: center; gap: 14px;
+  padding: 0 15px; min-height: 50px; position: sticky; top: 0; z-index: 1000; flex-wrap: wrap;
+  font-family: Helvetica, Arial, sans-serif;
+}
+.ihms-brand {
+  font-weight: 700; font-size: 13px; color: #fff; text-decoration: none;
+  padding: 5px 0; line-height: 20px; display: inline-flex; align-items: center;
+}
+.ihms-brand:hover { color: #fff; }
+.ihms-logo { height: 40px; width: auto; background: #fff; border-radius: 4px; padding: 2px 8px; display: block; }
+/* the user's own company logo (Company Master) is shown larger than the default IHMS mark */
+.ihms-brand .ihms-company-logo { height: 84px; max-width: 360px; width: auto; object-fit: contain; padding: 3px 10px; margin: 3px 0; }
+.ihms-nav { display: flex; flex: 1; flex-wrap: wrap; }
+.ihms-group { position: relative; }
+.ihms-top {
+  background: transparent; border: none; color: #fff; font-size: 13px; font-weight: 700;
+  padding: 20px; cursor: pointer; white-space: nowrap; line-height: 20px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+.ihms-top:hover { color: #fff; background: var(--nav-grey); font-weight: 700; }
+.ihms-top .caret { font-size: 10px; margin-left: 2px; }
+.ihms-dropdown {
+  position: absolute; top: 100%; left: 0; background: var(--nav-grey); min-width: 220px;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175); z-index: 1100; padding: 0; border: none;
+}
+.ihms-item {
+  display: block; padding: 10px 15px; color: #fff; text-decoration: none; font-size: 13px; white-space: nowrap; clear: both; font-weight: 700; line-height: 1.42857143;
+  background: var(--nav-grey); border-bottom: 2px solid #fff; margin: 0; cursor: pointer;
+}
+.ihms-item:hover { background: #444; color: #fff; font-weight: 700; }
+.ihms-item.disabled { color: #ccc; cursor: default; }
+.ihms-item.disabled:hover { background: var(--nav-grey); color: #ccc; font-weight: 700; }
+.ihms-user { display: flex; align-items: center; gap: 10px; white-space: nowrap; padding: 5px 0; }
+.ihms-who { font-size: 12px; color: #fff; }
+.ihms-avatar {
+  width: 40px; height: 40px; border-radius: 50px; background: #45619D; color: #fff;
+  display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; cursor: pointer;
+}
+.ihms-btn { padding: 6px 12px; border: 1px solid #fff; background: transparent; color: #fff; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 700; }
+.ihms-btn:hover { background: #fff; color: var(--nav-grey); }
+
+/* ---- IHMS dashboard ---- */
+.ihms-welcome { text-align: center; color: var(--brand-accent); font-size: 24px; font-weight: 700; margin: 10px 0 20px; letter-spacing: .3px; }
+.ihms-filters { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; align-items: flex-end; margin: 0 auto 24px; max-width: 1100px; background: var(--form-wrap); border-radius: 12px; border: 1px solid #e5e1fb; padding: 16px 18px; box-shadow: 0 2px 10px rgba(66,77,122,.08); }
+.ihms-filter { display: flex; flex-direction: column; gap: 6px; min-width: 230px; flex: 1; }
+.ihms-filter label { font-weight: 700; font-size: 12px; color: #424D7A; }
+.ihms-filter select { height: 36px; padding: 6px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 12.5px; background: #fff; font-family: Verdana, Geneva, Tahoma, sans-serif; }
+.ihms-filter select:focus { outline: none; border-color: #424D7A; box-shadow: 0 0 0 3px rgba(66,77,122,.15); }
+.ihms-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+.ihms-card { border-radius: 4px; overflow: hidden; border: 1px solid #337ab7; }
+.ihms-card .body { padding: 26px 20px; text-align: center; }
+.ihms-card .num { font-size: 40px; font-weight: 700; }
+.ihms-card .foot { padding: 12px; text-align: center; font-size: 14px; font-weight: 700; color: #fff; }
+
+/* nested (▶) submenus */
+.ihms-sub { position: relative; }
+.ihms-hassub { display: flex; justify-content: space-between; align-items: center; cursor: default; }
+.ihms-hassub .sub-caret { font-size: 10px; color: #000; }
+.ihms-flyout {
+  position: absolute; top: 0; left: 100%; background: var(--nav-grey); min-width: 220px;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175); border: none; z-index: 320; padding: 0;
+  max-height: 70vh; overflow-y: auto; margin-left: 0px;
+}
+
+/* ---- master screens tab strip (legacy jQuery-UI tabs skin, css/style.css) ---- */
+.em-tabs { display: flex; flex-wrap: wrap; margin: 14px 0 0; background: #fff; padding: .2em .2em 0; }
+.em-tab {
+  padding: .5em 1em; background: var(--brand); color: #fff; cursor: pointer; font-size: 12px;
+  border: none; border-radius: 0; margin-right: 2px;
+}
+.em-tab:hover { background: #fff; color: var(--brand); }
+.em-tab.active { background: #fff; color: var(--brand); }
+.em-tabpane { border: 1px solid #aaaaaa; border-top: none; padding: 1em 1.4em; background: #fff; }
+.em-secttitle { text-align: center; font-size: 14px; font-weight: 700; color: var(--brand-accent); margin: 4px 0 12px; }
+.lg-form.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+.lg-form.cols4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+/* Branch Master: chhoti screen par 3rd column right se kat-ta tha — breakpoint par stack karo */
+@media (max-width: 991px) {
+  .lg-form.cols3, .lg-form.cols4 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .lg-form, .lg-form.cols3, .lg-form.cols4 { grid-template-columns: 1fr; }
+}
+.em-note { background: #fcf8e3; border: 1px solid #faebcc; color: #8a6d3b; padding: 7px 10px; border-radius: 4px; font-size: 12px; margin: 6px 0 12px; }
+.em-hint { font-size: 11px; color: var(--muted); }
+
+/* ---- legacy login panel ---- */
+.login-wrap { max-width: 420px; margin: 8vh auto; }
+.login-panel { border: 1px solid #337ab7; border-radius: 4px; overflow: hidden; background: #fff; }
+.login-head {
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(66,77,122,1) 35%, rgba(255,255,255,1) 100%);
+  color: #fff; font-weight: 700; text-align: center; padding: 20px; text-transform: uppercase; font-size: small;
+}
+.login-body { padding: 20px; display: grid; gap: 12px; }
+.login-body label { display: grid; gap: 4px; font-weight: 700; font-size: 12px; }
+.login-body input { height: 34px; padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; font-family: Verdana, Geneva, Tahoma, sans-serif; }
+.login-error { color: #ff0000; font-size: 12px; font-weight: 700; }
+.login-btn { background-color: var(--legacy-green); border: none; color: #fff; font-size: 15px; font-weight: 700; min-height: 40px; border-radius: 4px; cursor: pointer; }
+.login-btn:hover { background-color: #fff; color: var(--legacy-green); border: 2px solid var(--legacy-green); }
+
+/* ---- Home alignment fix (same cards, proper centering) ----
+   Legacy style_grid.css fixes li width to 504px + float, so 3 cards overflow
+   the 1280px container. Override here only: flex rows, centered, responsive. */
+.wthree_agile_admin_info { max-width: 1100px; margin: 0 auto; }
+.agile_top_w3_grids .row.text-center { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin: 0 !important; }
+ul.ca-menu { margin: 0 auto !important; }
+ul.ca-menu li { float: none !important; margin: 0 !important; width: calc(33.333% - 12px) !important; min-width: 250px; max-width: 340px; height: 240px !important; background-size: cover; background-position: center; border: 1px solid rgba(0,0,0,.06); display: flex !important; }
+ul.ca-menu li:hover { transform: translateY(-3px); box-shadow: 0 10px 22px -6px rgba(0,0,0,.45); }
+ul.ca-menu li a { text-decoration: none; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: flex-start !important; padding-top: 20px !important; }
+/* icon absolute tha — static karo taaki number se takraye nahi */
+ul.ca-menu li i { position: static !important; width: auto !important; height: auto !important; line-height: 1 !important; font-size: 48px !important; margin-bottom: 6px !important; }
+/* number + label ko absolute overlap se bahar nikalo — vertical stack */
+ul.ca-menu li .ca-content { position: static !important; height: auto !important; width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; margin-top: 2px !important; }
+ul.ca-menu li .ca-content .ca-main { margin: 2px 0 10px !important; line-height: 1.2 !important; font-size: 30px !important; }
+ul.ca-menu li .ca-content .ca-sub { position: static !important; width: 100% !important; margin: 16px 0 0 !important; line-height: 42px !important; }
+@media (max-width: 900px) {
+  ul.ca-menu li { width: calc(50% - 9px) !important; max-width: none; }
+}
+@media (max-width: 600px) {
+  ul.ca-menu li { width: 100% !important; max-width: 420px; }
+  .ihms-filter { min-width: 100%; }
+}
+
+/* ---- print: only the panel prints (browser Save as PDF) ---- */
+@media print {
+  .ihms-header, .app-header, .app-footer, .no-print, .lg-btns, .dt-btns, .dt-page, .dt-search { display: none !important; }
+  .app-content { max-width: none; margin: 0; padding: 0; }
+  .lg-panel, .em-tabpane, .lg-form { box-shadow: none !important; }
+  body { font-size: 11px; background: #fff; }
+}
+
+/* =====================================================================
+ * Travel / Expense Claim screens — exact port of the legacy ASP.NET look.
+ * Source: apply_expencess.aspx, p_add_new_travel_plan2.aspx,
+ * p_add_expencess1.aspx, app_rej_claim.aspx, app_rej_travelplan.aspx
+ * (Bootstrap 3: panel-primary #337ab7, btn-primary blue, btn-danger red,
+ * form-control 34px inputs, GridView #006699 headers / #000066 rows,
+ * Verdana body, #f3f1fe form wrap, glyphicon-plus #337ab7 links row).
+ * The new frontend ships no Bootstrap CSS, so these classes replicate it.
+ * ===================================================================== */
+.tv-panel { border: 1px solid #337ab7; border-radius: 4px; background: #fff; margin-bottom: 20px; }
+.tv-head { background-color: #337ab7; border-color: #337ab7; color: #fff; padding: 10px 15px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; }
+.tv-head-row { display: flex; align-items: center; }
+.tv-head-side { flex: 0 0 8.33%; }
+.tv-head-title { flex: 0 0 75%; color: #fff; font-size: small; text-align: center; text-transform: uppercase; font-weight: bold; }
+.tv-head-help { flex: 0 0 16.66%; text-align: right; font-size: 10px; }
+.tv-subhead { background-color: #337ab7; border-color: #337ab7; color: #fff; padding: 10px 15px; font-size: small; text-align: left; font-weight: bold; }
+.tv-body { padding: 15px; }
+.tv-links-row { display: flex; align-items: center; justify-content: space-between; border: 1px solid #000; border-bottom: none; background-color: #eee; padding: 6px 12px; }
+.tv-plus { font-size: 30px; font-weight: bolder; height: 30px; padding-left: 5px; padding-right: 5px; color: #337ab7; border-radius: 20%; line-height: 1; }
+.tv-link { color: #000; font-weight: bold; text-decoration: none; }
+.tv-link:hover { text-decoration: underline; }
+.tv-btn { display: inline-block; margin-bottom: 0; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; border: 1px solid transparent; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; border-radius: 4px; font-family: Verdana, Geneva, Tahoma, sans-serif; text-decoration: none; }
+.tv-btn-primary { color: #fff; background-color: #337ab7; border-color: #2e6da4; }
+.tv-btn-primary:hover { color: #fff; background-color: #286090; border-color: #204d74; }
+.tv-btn-danger { color: #fff; background-color: #d9534f; border-color: #d43f3a; }
+.tv-btn-danger:hover { color: #fff; background-color: #c9302c; border-color: #ac2925; }
+.tv-input { display: block; width: 100%; height: 34px; padding: 6px 12px; font-size: 12px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); font-family: Verdana, Geneva, Tahoma, sans-serif; }
+.tv-input:focus { outline: none; border-color: #66afe9; box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6); }
+textarea.tv-input { height: auto; }
+.tv-form-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; }
+.tv-field { flex: 1 1 150px; min-width: 150px; max-width: 230px; font-size: 12px; }
+.tv-field-wide { flex: 2 1 300px; min-width: 250px; }
+.tv-formwrap { background: #f3f1fe; padding: 15px 20px 15px 20px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #fff; }
+.tv-table { width: 100%; max-width: 100%; border-collapse: collapse; background-color: #fff; font-size: 12px; }
+.tv-table th { background-color: #006699; color: #fff; font-weight: bold; text-transform: uppercase; text-align: left; padding: 8px; border: 1px solid #CCCCCC; }
+.tv-table td { padding: 7px 8px; border: 1px solid #CCCCCC; color: #000066; background-color: #ffffff; }
+.tv-table tfoot td { background-color: #fff; color: #000066; font-weight: bold; }
+.tv-scroll { overflow: auto; }
+.tv-msg { color: #424D7A; font-weight: bold; margin: 8px 0; }
+.tv-center { text-align: center; }
+.tv-note-red { color: red; }
+.tv-popup { font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 12px; }
+.tv-popup-title { text-align: center; margin-top: 20px; margin-bottom: 20px; color: black; font-size: small; }
+
+/* =====================================================================
+ * finance_dept.aspx — standard Bootstrap 3 port (exact legacy look).
+ * Source: finance_dept.aspx header (Scripts/bootstrap.min.css,
+ * css/new_stylesheet.css, GridViewFreezeStyle.css, datatable buttons).
+ * The new frontend ships no Bootstrap CSS, so these classes replicate
+ * the standard Bootstrap 3 look used by the aspx page:
+ * panel-primary #337ab7, form-control 34px, btn-primary blue,
+ * btn-danger red, GridView #006699/#000066, #f3f1fe tab wrap.
+ * ===================================================================== */
+.container-fluid { padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto; }
+.container-fluid::after { content: ""; display: table; clear: both; }
+.row { margin-right: -15px; margin-left: -15px; }
+.row::after { content: ""; display: table; clear: both; }
+.col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-6, .col-sm-9, .col-sm-10,
+.col-md-2, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-11 {
+  position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; float: left;
+}
+.col-xs-12 { width: 100%; }
+@media (min-width: 768px) {
+  .col-sm-1 { width: 8.33333333%; }
+  .col-sm-2 { width: 16.66666667%; }
+  .col-sm-3 { width: 25%; }
+  .col-sm-6 { width: 50%; }
+  .col-sm-9 { width: 75%; }
+  .col-sm-10 { width: 83.33333333%; }
+}
+@media (min-width: 992px) {
+  .col-md-2 { width: 16.66666667%; }
+  .col-md-12 { width: 100%; }
+}
+@media (min-width: 1200px) {
+  .col-lg-2 { width: 16.66666667%; }
+  .col-lg-1 { width: 8.33333333%; }
+  .col-lg-11 { width: 91.66666667%; }
+}
+@media (min-width: 992px) {
+  .col-md-2 { width: 16.66666667%; }
+  .col-md-11 { width: 91.66666667%; }
+  .col-md-12 { width: 100%; }
+}
+@media (max-width: 767px) {
+  .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-6, .col-sm-9, .col-sm-10 { width: 100%; float: none; }
+}
+@media (max-width: 991px) {
+  .col-md-2 { width: 50%; }
+}
+@media (max-width: 1199px) {
+  .col-lg-2 { width: 25%; }
+}
+/* ---- grid widths completed for the 1:1 EmployeeMaster legacy layout ---- */
+.col-sm-4, .col-sm-5, .col-sm-7, .col-sm-8, .col-sm-11, .col-sm-12,
+.col-md-4, .col-md-6, .col-lg-6 {
+  position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; float: left;
+}
+@media (min-width: 768px) {
+  .col-sm-4 { width: 33.33333333%; }
+  .col-sm-5 { width: 41.66666667%; }
+  .col-sm-7 { width: 58.33333333%; }
+  .col-sm-8 { width: 66.66666667%; }
+  .col-sm-11 { width: 91.66666667%; }
+  .col-sm-12 { width: 100%; }
+}
+@media (min-width: 992px) {
+  .col-md-4 { width: 33.33333333%; }
+  .col-md-6 { width: 50%; }
+}
+@media (min-width: 1200px) {
+  .col-lg-6 { width: 50%; }
+}
+@media (max-width: 767px) {
+  .col-sm-4, .col-sm-5, .col-sm-7, .col-sm-8, .col-sm-11, .col-sm-12 { width: 100%; float: none; }
+}
+/* ---- legacy EmployeeMaster field cells (exact .aspx look) ---- */
+.emf { margin-bottom: 12px; }
+.emf > b, .emf-label > b { display: inline-block; font-size: 12px; font-weight: 700; color: #333; margin-bottom: 3px; }
+.emf .lg-control { margin-top: 2px; }
+.emf-label { padding-top: 7px; font-size: 12px; }
+.emf-srow { margin-bottom: 10px; }
+.em-half { border-right: 1px solid #e5e5e5; }
+@media (max-width: 767px) { .em-half { border-right: none; } }
+/* vendor form rows/fields: pure flex (never depends on float grid) */
+.vrow { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 12px 8.33333333%; }
+.vfield { flex: 1 1 160px; min-width: 160px; max-width: 220px; }
+.vfield b { display: block; margin-bottom: 4px; font-size: 12px; }
+/* legacy scrollable grid wrapper (ITMASTER .grid-view) */
+.grid-view { height: auto; max-height: 400px; overflow-x: auto; overflow-y: auto; font-family: Verdana, Geneva, Tahoma, sans-serif; padding-bottom: 4px; padding-right: 2px; }
+.grid-view .table { margin-bottom: 0; min-width: 900px; }
+.grid-view .table th { white-space: nowrap; }
+.grid-view .table td { white-space: normal; word-break: break-word; }
+.grid-view .table td:last-child, .grid-view .table th:last-child { padding-right: 14px; }
+
+/* =====================================================================
+ * ITMASTER.aspx — exact legacy skin (from screenshot + css/style.css).
+ * Gradient panel head (white -> #424D7A -> white), jQuery-UI tab strip
+ * (dark #424D7A tabs, ACTIVE tab white), beige tab body, GREEN primary
+ * buttons (#00b712 legacy .btn-primary, white-invert hover).
+ * Scoped under .itmaster so other pages are untouched.
+ * ===================================================================== */
+.itmaster .lg-panel { margin-bottom: 0; }
+/* legacy pages are full-width container-fluid (no 1280px cap like dashboard) */
+.app-content:has(.itmaster) { max-width: none; padding: 0 5px; }
+/* menu1 grid legacy colors: #5D7B9D headers, #F7F6F3 rows, #333 text */
+.it-grid-alt .dt-grid th { background: #5D7B9D; }
+.it-grid-alt .dt-grid td { background: #F7F6F3; color: #333333; }
+.it-grid-alt .dt-grid tbody tr:hover td { background: #E2DED6; }
+.itmaster-tabs { background: #fff; border: 1px solid #aaaaaa; padding: .2em .2em 0; }
+.itmaster-tabs > ul { display: flex; flex-wrap: wrap; margin: 0; padding: .2em .2em 0; background: #fff; list-style: none; }
+.itmaster-tabs > ul > li { margin: 0 2px 0 0; }
+.itmaster-tabs > ul > li > a {
+  display: block; padding: .5em 1em; background: #424D7A; color: #fff; font-size: 12px;
+  text-decoration: none; border-top-left-radius: 4px; border-top-right-radius: 4px; white-space: nowrap;
+}
+.itmaster-tabs > ul > li > a:hover { background: #343c63; color: #fff; }
+.itmaster-tabs > ul > li.active > a {
+  background: #fff; color: #424D7A; border: 1px solid #aaaaaa; border-bottom: 1px solid #fff;
+  margin-bottom: -1px; padding-bottom: calc(.5em + 1px);
+}
+.itmaster-body { background: beige; border: 1px solid #aaaaaa; border-top: none; padding: 1em 1.4em; }
+.it-btn {
+  display: inline-block; margin-bottom: 0; font-weight: 700; text-align: center; vertical-align: middle;
+  cursor: pointer; border: 2px solid transparent; padding: 6px 20px; font-size: 14px; line-height: 1.42857143; border-radius: 4px;
+  background-color: #00b712; color: #fff; text-decoration: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif; white-space: nowrap;
+  box-sizing: border-box;
+}
+.it-btn:hover { background-color: #fff; color: #00b712; border: 2px solid #00b712; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+.text-uppercase { text-transform: uppercase; }
+.text-red, .text-danger { color: #a94442; }
+.panel { margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 4px; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+.panel-primary { border-color: #337ab7; }
+.panel-primary > .panel-heading { color: #fff; background-color: #337ab7; border-color: #337ab7; }
+.panel-default { border-color: #ddd; }
+.panel-heading { padding: 10px 15px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; }
+.panel-body { padding: 15px; }
+.form-control, .text_box {
+  display: block; width: 100%; height: 34px; padding: 6px 12px; font-size: 12px; line-height: 1.42857143;
+  color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.form-control:focus, .text_box:focus { outline: none; border-color: #66afe9; box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6); }
+.form-control[readonly], .text_box[readonly] { background-color: #eee; opacity: 1; cursor: not-allowed; }
+.form-control[disabled], .text_box[disabled] { background-color: #eee; opacity: 1; cursor: not-allowed; }
+select.form-control, select.text_box { height: 34px; }
+textarea.form-control, textarea.text_box { height: auto; }
+.table { width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff; border-collapse: collapse; font-size: 12px; }
+.table th {
+  background-color: #006699; color: #fff; font-weight: bold; text-transform: uppercase;
+  text-align: left; padding: 8px; border: 1px solid #CCCCCC; white-space: nowrap;
+}
+.table td { padding: 7px 8px; border: 1px solid #CCCCCC; color: #000066; background-color: #ffffff; vertical-align: middle; }
+.table tbody tr:hover td { background-color: #EFF3FB; }
+.btn, .btn-large {
+  display: inline-block; margin-bottom: 0; font-weight: 400; text-align: center; vertical-align: middle;
+  cursor: pointer; border: 1px solid transparent; padding: 6px 12px; font-size: 14px; line-height: 1.42857143;
+  border-radius: 4px; text-decoration: none; font-family: Verdana, Geneva, Tahoma, sans-serif;
+  user-select: none;
+}
+.btn-primary { color: #fff; background-color: #337ab7; border-color: #2e6da4; }
+.btn-primary:hover { color: #fff; background-color: #286090; border-color: #204d74; }
+.btn-danger { color: #fff; background-color: #d9534f; border-color: #d43f3a; }
+.btn-danger:hover { color: #fff; background-color: #c9302c; border-color: #ac2925; }
+.btn-link { color: #337ab7; font-weight: 400; border-radius: 0; background-color: transparent; box-shadow: none; border-color: transparent; }
+.btn-link:hover { color: #23527c; text-decoration: underline; background-color: transparent; }
+.btn-block { display: block; width: 100%; }
+/* aspx tab strip (#tabs ul li a) */
+#tabs > ul { margin: 0; padding: 10px 16px 0; border-bottom: 1px solid #ddd; }
+#tabs > ul::after { content: ""; display: table; clear: both; }
+#tabs > ul > li { list-style: none; float: left; margin-bottom: -1px; }
+#tabs > ul > li > a {
+  display: block; padding: 10px 15px; margin-right: 2px; line-height: 1.42857143;
+  border: 1px solid transparent; border-radius: 4px 4px 0 0; color: #337ab7; text-decoration: none;
+}
+#tabs > ul > li > a:hover { border-color: #eee #eee #ddd; background-color: #eee; }
+/* datepicker textboxes (legacy .date-pickers/.date-picker1/.date-picker2 + jQuery UI) */
+.date-pickers, .date-picker1, .date-picker2 {
+  background-color: #fff; cursor: pointer;
+}
+input[type="date"].form-control, input[type="date"].date-pickers,
+input[type="date"].date-picker1, input[type="date"].date-picker2 {
+  height: 34px; line-height: 1.42857143;
+}

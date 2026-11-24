@@ -1,0 +1,208 @@
+/* =====================================================================
+ * Celtpayroll UI design system — "layered / 3D architecture" skin.
+ * PRESENTATION ONLY. Applies to every page through the shared legacy class
+ * vocabulary (lg-*, em-*, dt-*, Bootstrap-3 panel/form/btn/table) inside
+ * .app-content. Company Master / Client Master keep their own scoped skins
+ * (same tokens), so all pages share one language.
+ * ===================================================================== */
+.app-content {
+  --co-ink: #1e2a4a;
+  --co-brand: #424d7a;
+  --co-brand-2: #5a67a3;
+  --co-line: #dfe3f1;
+  --co-soft: #f4f6fc;
+  --co-radius: 12px;
+  --co-lift-1: 0 1px 2px rgba(30,42,74,.06), 0 4px 10px rgba(30,42,74,.06);
+  --co-lift-2: 0 2px 4px rgba(30,42,74,.06), 0 10px 24px rgba(30,42,74,.10), 0 24px 48px -12px rgba(30,42,74,.14);
+  --ds-grad-brand: linear-gradient(135deg, #2f3a66 0%, #424d7a 55%, #5a67a3 100%);
+  color: var(--co-ink);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, Verdana, sans-serif;
+}
+
+/* ---- Page slabs / headings ---- */
+.app-content .lg-panel,
+.app-content .panel.panel-primary {
+  border: 1px solid var(--co-line);
+  border-radius: 16px;
+  box-shadow: var(--co-lift-2);
+  background: #fff;
+}
+.app-content .lg-panel-head {
+  background: var(--ds-grad-brand);
+  color: #fff;
+  border: 0;
+  padding: 16px 20px;
+  font-size: 15px;
+  letter-spacing: .14em;
+  text-align: center;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.15), 0 2px 8px rgba(30,42,74,.25);
+  position: relative;
+  z-index: 1;
+}
+.app-content .panel-primary > .panel-heading {
+  background: var(--ds-grad-brand);
+  border: 0;
+  border-radius: 15px 15px 0 0;
+  padding: 14px 20px;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.15), 0 2px 8px rgba(30,42,74,.2);
+}
+.app-content .lg-panel-body { padding: 20px; background: linear-gradient(180deg, #eef1fa 0%, #f8f9fd 200px); }
+.app-content .lg-subhead {
+  font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--co-brand); border-left: 4px solid var(--co-brand-2); padding: 2px 0 2px 10px; margin: 0 0 14px;
+}
+
+/* ---- Elevated sections ---- */
+.app-content .lg-form,
+.app-content .lg-form-box,
+.app-content [style*="f3f1fe"]:not(li):not(ul):not(td):not(tr) {
+  background: linear-gradient(180deg, #fff 0%, var(--co-soft) 100%) !important;
+  border: 1px solid var(--co-line) !important;
+  border-radius: var(--co-radius) !important;
+  box-shadow: var(--co-lift-1), inset 0 1px 0 #fff;
+}
+.app-content .lg-form, .app-content .lg-form-box { padding: 18px 20px; gap: 14px 24px; }
+
+/* ---- Labels ---- */
+.app-content .lg-label,
+.app-content .row > [class*="col-"] > b:first-child,
+.app-content .row > [class*="col-"] > label:first-child {
+  font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: #4a5578;
+}
+.app-content .lg-req, .app-content .text-red { color: #d6334a !important; font-weight: 700; }
+
+/* ---- Controls ---- */
+.app-content .lg-control, .app-content .form-control, .app-content .text_box,
+.app-content .dt-len, .app-content .dt-search input,
+.app-content .lg-panel-body input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="submit"]):not([class]),
+.app-content .lg-panel-body select:not([class]) {
+  border: 1px solid #cfd5e8; border-radius: 8px; background: #fff; color: var(--co-ink); font-size: 13px;
+  box-shadow: inset 0 1px 2px rgba(30,42,74,.06);
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.app-content .lg-control:hover, .app-content .form-control:hover, .app-content .dt-search input:hover { border-color: #aab3d3; }
+.app-content .lg-control:focus, .app-content .form-control:focus, .app-content .text_box:focus,
+.app-content .dt-search input:focus, .app-content .dt-len:focus,
+.app-content .lg-panel-body input:not([class]):focus, .app-content .lg-panel-body select:not([class]):focus {
+  border-color: var(--co-brand-2); outline: 0;
+  box-shadow: 0 0 0 3px rgba(90,103,163,.22), 0 2px 6px rgba(30,42,74,.10);
+}
+.app-content .lg-control[readonly], .app-content .lg-control:disabled,
+.app-content .form-control[readonly], .app-content .form-control:disabled {
+  background: #eef0f8; color: #6b7599; box-shadow: none;
+}
+.app-content select[multiple], .app-content select[size] { background: var(--co-soft); }
+
+/* ---- Notes / alerts ---- */
+.app-content .em-note {
+  background: linear-gradient(180deg, #fffaf0, #fff4dc); border: 1px solid #f0dca8; border-left: 4px solid #e0a928;
+  border-radius: 10px; color: #7a5b17; padding: 9px 14px;
+}
+.app-content .lg-alert { border-radius: 10px; box-shadow: var(--co-lift-1); }
+
+/* ---- Tabs ---- */
+.app-content .em-tabs {
+  background: linear-gradient(180deg, #e9edf8, #dde3f3); border: 1px solid var(--co-line); border-bottom: 0;
+  border-radius: var(--co-radius) var(--co-radius) 0 0; padding: 10px 10px 0; gap: 4px;
+}
+.app-content .em-tab {
+  border: 1px solid var(--co-line); border-bottom: 0; border-radius: 9px 9px 0 0; background: #f1f3fb; color: #4a5578;
+  font-size: 12.5px; font-weight: 600; padding: 8px 16px; cursor: pointer;
+  box-shadow: inset 0 -6px 8px -8px rgba(30,42,74,.25); transition: background .15s ease, transform .15s ease;
+}
+.app-content .em-tab:hover { background: #fff; transform: translateY(-1px); }
+.app-content .em-tab.active { background: #fff; color: var(--co-brand); border-top: 3px solid var(--co-brand-2); box-shadow: 0 -3px 8px rgba(30,42,74,.10); }
+.app-content .em-tabpane {
+  background: #fff; border: 1px solid var(--co-line); border-top: 0; border-radius: 0 0 var(--co-radius) var(--co-radius);
+  box-shadow: var(--co-lift-1); padding: 18px 20px;
+}
+.app-content #tabs > ul > li > a { border-radius: 9px 9px 0 0; font-weight: 600; }
+.app-content #tabs > ul > li > a:hover { background: #fff; border-color: var(--co-line) var(--co-line) transparent; }
+
+/* ---- Buttons: raised keys ---- */
+.app-content .btn, .app-content .lg-btn, .app-content .dt-exp, .app-content .dt-page button,
+.app-content .lg-panel-body button:not([class]) {
+  border-radius: 9px; font-weight: 600; letter-spacing: .02em;
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.app-content .btn:not(:disabled):hover, .app-content .lg-btn:not(:disabled):hover, .app-content .dt-exp:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.app-content .btn:not(:disabled):active, .app-content .lg-btn:not(:disabled):active, .app-content .dt-exp:active { transform: translateY(1px); }
+.app-content .btn:disabled, .app-content .lg-btn:disabled { opacity: .55; cursor: not-allowed; }
+.app-content .lg-btn, .app-content .btn-default, .app-content .lg-panel-body button:not([class]) {
+  background: #fff; color: var(--co-brand); border: 1px solid var(--co-line);
+  box-shadow: 0 2px 0 #d3d8ea, 0 6px 10px rgba(30,42,74,.08);
+}
+.app-content .btn-primary, .app-content .lg-btn-primary, .app-content .lg-btn-green {
+  background: linear-gradient(180deg, #5663a0 0%, var(--co-brand) 100%); color: #fff; border: 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 3px 0 #2d3659, 0 8px 14px rgba(45,54,89,.28);
+}
+.app-content .btn-danger, .app-content .lg-btn-danger, .app-content .lg-btn-red {
+  background: linear-gradient(180deg, #e5566a 0%, #cf2f45 100%); color: #fff; border: 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 3px 0 #9d2033, 0 6px 12px rgba(157,32,51,.22);
+}
+.app-content .btn-success {
+  background: linear-gradient(180deg, #2fb36a 0%, #1e9455 100%); color: #fff; border: 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 2px 0 #167043, 0 6px 10px rgba(22,112,67,.22);
+}
+.app-content .lg-btn-primary:hover, .app-content .lg-btn-green:hover, .app-content .lg-btn-danger:hover, .app-content .lg-btn-red:hover {
+  color: #fff; border: 0;   /* legacy white-invert hover replaced by lift */
+}
+.app-content .btn-link { color: var(--co-brand-2); font-weight: 600; box-shadow: none; background: transparent; }
+.app-content .btn-sm, .app-content .btn-xs { padding: 5px 12px; font-size: 12.5px; }
+.app-content .lg-grid .lg-btn-red, .app-content .dt-grid .lg-btn-red { padding: 3px 9px; min-height: 0; min-width: 0; font-size: 12px; box-shadow: 0 2px 0 #9d2033; }
+.app-content .dt-exp { background: linear-gradient(180deg, #6f7db6, var(--co-brand-2)); border: 0; color: #fff; box-shadow: 0 2px 0 #3f4a7a, 0 5px 8px rgba(45,54,89,.2); }
+.app-content .dt-page button { background: #fff; color: var(--co-brand); border: 1px solid var(--co-line); box-shadow: 0 2px 0 #d3d8ea; }
+.app-content .lg-btns.center, .app-content .row.text-center { padding: 6px 0; }
+.app-content .lg-btns.center .lg-btn { min-width: 108px; border-radius: 10px; }
+
+/* ---- "Add" action pill (the bare "＋" buttons) ---- */
+.app-content button[title="Add Item"], .app-content button[title="Add"] {
+  display: inline-flex !important; align-items: center; gap: 8px; height: 38px; padding: 0 18px 0 12px !important;
+  border: 0 !important; border-radius: 10px !important;
+  background: linear-gradient(180deg, #5f6dab 0%, var(--co-brand) 100%) !important; color: #fff !important;
+  font-size: 0 !important; font-weight: 600; letter-spacing: .03em; cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255,255,255,.28) inset, 0 3px 0 #2d3659, 0 8px 14px rgba(45,54,89,.28) !important;
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.app-content button[title="Add Item"]::before, .app-content button[title="Add"]::before {
+  content: "+"; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;
+  border-radius: 7px; background: rgba(255,255,255,.18); box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
+  font-size: 18px; font-weight: 500; line-height: 1;
+}
+.app-content button[title="Add Item"]::after, .app-content button[title="Add"]::after { content: "Add"; font-size: 13px; }
+.app-content button[title="Add Item"]:hover, .app-content button[title="Add"]:hover { transform: translateY(-2px) !important; filter: brightness(1.07); }
+.app-content button[title="Add Item"]:active, .app-content button[title="Add"]:active { transform: translateY(2px) !important; }
+
+/* ---- Tables ---- */
+.app-content .lg-grid, .app-content .dt-grid, .app-content .table { border-collapse: separate; border-spacing: 0; }
+.app-content .lg-grid th, .app-content .dt-grid th, .app-content .table th,
+.app-content .table > thead > tr > th {
+  background: linear-gradient(180deg, #4a5788, var(--co-brand)) !important; color: #fff;
+  font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; padding: 10px 12px; border: 0 !important; white-space: nowrap;
+}
+.app-content .lg-grid td, .app-content .dt-grid td, .app-content .table td {
+  padding: 9px 12px; border: 0; border-top: 1px solid #eceff8; font-size: 13px; color: var(--co-ink);
+}
+.app-content .lg-grid tbody tr:nth-child(even) td, .app-content .dt-grid tbody tr:nth-child(even) td,
+.app-content .table tbody tr:nth-child(even) td { background: #fafbfe; }
+.app-content .lg-grid tbody tr:hover td, .app-content .dt-grid tbody tr:hover td, .app-content .table tbody tr:hover td { background: #eef1fb; }
+.app-content .lg-grid tr.lg-selected td, .app-content .dt-grid tr.dt-selected td { background: var(--co-brand-2) !important; color: #fff !important; }
+.app-content div[style*="overflow-x: auto"], .app-content div[style*="overflow-x:auto"], .app-content div[style*="overflowX"],
+.app-content .lg-grid-wrapper {
+  border: 1px solid var(--co-line) !important; border-radius: 10px; box-shadow: var(--co-lift-1);
+}
+.app-content .dt-foot, .app-content .dt-top { font-size: 12.5px; color: #4a5578; }
+
+/* ---- Bare Bootstrap panels (non-primary) ---- */
+.app-content .panel-default, .app-content .panel-info, .app-content .well {
+  border: 1px solid var(--co-line); border-radius: var(--co-radius); box-shadow: var(--co-lift-1); background: #fff;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 767px) {
+  .app-content .lg-panel-body { padding: 12px; }
+  .app-content .lg-form, .app-content .lg-form-box { padding: 12px; }
+  .app-content .em-tab { padding: 7px 11px; }
+  .app-content .em-tabpane { padding: 12px; overflow-x: auto; }
+  .app-content .lg-btns.center .lg-btn { min-width: 46%; }
+}

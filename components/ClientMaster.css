@@ -1,0 +1,304 @@
+/* Client Master — presentation only, scoped under .cl-skin (same visual language
+   as CompanyMaster.css). The shared lg-* / em-* / dt-* classes are used by other
+   pages, so nothing here may leak outside .cl-skin. */
+
+.cl-skin {
+  --co-ink: #1e2a4a;
+  --co-brand: #424d7a;
+  --co-brand-2: #5a67a3;
+  --co-line: #dfe3f1;
+  --co-soft: #f4f6fc;
+  --co-radius: 12px;
+  --co-lift-1: 0 1px 2px rgba(30, 42, 74, .06), 0 4px 10px rgba(30, 42, 74, .06);
+  --co-lift-2: 0 2px 4px rgba(30, 42, 74, .06), 0 10px 24px rgba(30, 42, 74, .10), 0 24px 48px -12px rgba(30, 42, 74, .14);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--co-ink);
+  border: 1px solid var(--co-line) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--co-lift-2) !important;
+  margin-top: 18px;
+  margin-bottom: 32px;
+}
+
+/* Heading slab */
+.cl-skin > .lg-panel-head {
+  background: linear-gradient(135deg, #2f3a66 0%, var(--co-brand) 55%, var(--co-brand-2) 100%) !important;
+  color: #fff;
+  border: 0 !important;
+  padding: 16px 20px !important;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .15), 0 2px 8px rgba(30, 42, 74, .25);
+  position: relative;
+  z-index: 1;
+}
+.cl-skin > .lg-panel-body {
+  padding: 20px;
+  background: linear-gradient(180deg, #eef1fa 0%, #f8f9fd 200px);
+}
+.cl-skin .lg-subhead {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--co-brand);
+  background: none;
+  border: 0;
+  border-left: 4px solid var(--co-brand-2);
+  padding: 2px 0 2px 10px;
+  margin: 0 0 14px;
+}
+
+/* Elevated form cards */
+.cl-skin .lg-form {
+  background: linear-gradient(180deg, #fff 0%, var(--co-soft) 100%);
+  border: 1px solid var(--co-line);
+  border-radius: var(--co-radius);
+  box-shadow: var(--co-lift-1), inset 0 1px 0 #fff;
+  padding: 18px 20px;
+  gap: 14px 24px;
+}
+.cl-skin .lg-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #4a5578;
+}
+.cl-skin .lg-req { color: #d6334a; font-weight: 700; }
+
+/* Controls */
+.cl-skin .lg-control,
+.cl-skin .form-control,
+.cl-skin .lg-panel-body input:not([type="checkbox"]):not([type="radio"]):not([class]),
+.cl-skin .lg-panel-body select:not([class]) {
+  height: 38px;
+  border: 1px solid #cfd5e8;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--co-ink);
+  font-size: 13.5px;
+  box-shadow: inset 0 1px 2px rgba(30, 42, 74, .06);
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.cl-skin textarea.form-control { height: auto; }
+.cl-skin select[multiple].form-control,
+.cl-skin select[size].lg-control,
+.cl-skin select[size].form-control { height: auto !important; background: var(--co-soft); }
+.cl-skin .lg-control:hover,
+.cl-skin .form-control:hover { border-color: #aab3d3; }
+.cl-skin .lg-control:focus,
+.cl-skin .form-control:focus,
+.cl-skin .lg-panel-body input:not([type="checkbox"]):not([type="radio"]):not([class]):focus,
+.cl-skin .lg-panel-body select:not([class]):focus {
+  border-color: var(--co-brand-2);
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(90, 103, 163, .22), 0 2px 6px rgba(30, 42, 74, .10);
+  transform: translateY(-1px);
+}
+.cl-skin .lg-control[readonly],
+.cl-skin .lg-control:disabled,
+.cl-skin .form-control:disabled {
+  background: #eef0f8;
+  color: #6b7599;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Notes */
+.cl-skin .em-note {
+  background: linear-gradient(180deg, #fffaf0, #fff4dc);
+  border: 1px solid #f0dca8;
+  border-left: 4px solid #e0a928;
+  border-radius: 10px;
+  color: #7a5b17;
+  box-shadow: 0 1px 2px rgba(122, 91, 23, .08);
+  padding: 9px 14px;
+}
+
+/* Tabs — layered folders */
+.cl-skin .em-tabs {
+  background: linear-gradient(180deg, #e9edf8, #dde3f3);
+  border: 1px solid var(--co-line);
+  border-bottom: 0;
+  border-radius: var(--co-radius) var(--co-radius) 0 0;
+  padding: 10px 10px 0;
+  gap: 4px;
+  margin-top: 18px;
+}
+.cl-skin .em-tab {
+  border: 1px solid var(--co-line) !important;
+  border-bottom: 0 !important;
+  border-radius: 9px 9px 0 0 !important;
+  background: #f1f3fb !important;
+  color: #4a5578 !important;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 8px 16px !important;
+  box-shadow: inset 0 -6px 8px -8px rgba(30, 42, 74, .25);
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.cl-skin .em-tab:hover { background: #fff !important; transform: translateY(-1px); }
+.cl-skin .em-tab.active {
+  background: #fff !important;
+  color: var(--co-brand) !important;
+  border-top: 3px solid var(--co-brand-2) !important;
+  box-shadow: 0 -3px 8px rgba(30, 42, 74, .10);
+  position: relative;
+  top: 1px;
+}
+.cl-skin .em-tabpane {
+  background: #fff;
+  border: 1px solid var(--co-line);
+  border-top: 0;
+  border-radius: 0 0 var(--co-radius) var(--co-radius);
+  box-shadow: var(--co-lift-1);
+  padding: 18px 20px;
+}
+.cl-skin .em-tabpane .lg-form { box-shadow: none; background: var(--co-soft); }
+
+/* Buttons — raised keys */
+.cl-skin .lg-btn,
+.cl-skin .lg-panel-body button:not([class]) {
+  border-radius: 9px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.cl-skin .lg-btn:not(:disabled):hover { transform: translateY(-2px); filter: brightness(1.06); }
+.cl-skin .lg-btn:not(:disabled):active { transform: translateY(1px); }
+.cl-skin .lg-btn:disabled { opacity: .55; }
+.cl-skin .lg-btn {
+  background: #fff;
+  color: var(--co-brand);
+  border: 1px solid var(--co-line);
+  box-shadow: 0 2px 0 #d3d8ea, 0 6px 10px rgba(30, 42, 74, .08);
+}
+.cl-skin .lg-btn-green {
+  background: linear-gradient(180deg, #5663a0 0%, var(--co-brand) 100%);
+  color: #fff;
+  border: 0;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 3px 0 #2d3659, 0 8px 14px rgba(45, 54, 89, .28);
+}
+.cl-skin .lg-btn-red {
+  background: linear-gradient(180deg, #e5566a 0%, #cf2f45 100%);
+  color: #fff;
+  border: 0;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 3px 0 #9d2033, 0 6px 12px rgba(157, 32, 51, .22);
+}
+.cl-skin .lg-grid .lg-btn-red { padding: 3px 9px; box-shadow: 0 2px 0 #9d2033; }
+.cl-skin .lg-btns.center { margin: 18px 0; }
+.cl-skin .lg-btns.center .lg-btn { min-width: 108px; border-radius: 10px; }
+
+/* Reason for Updation panel (bootstrap markup, inline-styled) */
+.cl-skin .panel.panel-primary[style*="f3f1fe"] {
+  background: linear-gradient(180deg, #fff, var(--co-soft)) !important;
+  border: 1px solid var(--co-line) !important;
+  border-radius: var(--co-radius) !important;
+  box-shadow: var(--co-lift-1);
+  overflow: hidden;
+}
+.cl-skin .panel-heading {
+  background: linear-gradient(135deg, #2f3a66, var(--co-brand)) !important;
+  border: 0 !important;
+  padding: 10px 16px;
+}
+.cl-skin .panel-body.container { padding: 16px 20px; }
+
+/* Tables (child grids + client grid) */
+.cl-skin .lg-grid,
+.cl-skin .dt-grid { border-collapse: separate; border-spacing: 0; width: 100%; }
+.cl-skin .lg-grid th,
+.cl-skin .dt-grid th {
+  background: linear-gradient(180deg, #4a5788, var(--co-brand)) !important;
+  color: #fff;
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 10px 12px;
+  border: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  white-space: nowrap;
+}
+.cl-skin .lg-grid td,
+.cl-skin .dt-grid td {
+  padding: 9px 12px;
+  border: 0;
+  border-top: 1px solid #eceff8;
+  font-size: 13px;
+  color: var(--co-ink);
+}
+.cl-skin .lg-grid tbody tr:nth-child(even) td,
+.cl-skin .dt-grid tbody tr:nth-child(even) td { background: #fafbfe; }
+.cl-skin .lg-grid tbody tr:hover td,
+.cl-skin .dt-grid tbody tr:hover td { background: #eef1fb; }
+.cl-skin .dt-grid tbody tr { transition: box-shadow .12s ease; }
+.cl-skin .dt-grid tbody tr:hover { box-shadow: 0 2px 8px rgba(30, 42, 74, .10); }
+.cl-skin .dt-grid tr.dt-selected td { background: var(--co-brand-2) !important; color: #fff !important; }
+.cl-skin div[style*="overflow-x: auto"],
+.cl-skin div[style*="overflowX"] {
+  border: 1px solid var(--co-line) !important;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 3px rgba(30, 42, 74, .06), var(--co-lift-1);
+}
+.cl-skin .em-tabpane .lg-grid { border: 1px solid var(--co-line); border-radius: 10px; overflow: hidden; }
+
+/* Responsive */
+@media (max-width: 767px) {
+  .cl-skin > .lg-panel-body { padding: 12px; }
+  .cl-skin .lg-form { padding: 12px; }
+  .cl-skin .em-tab { padding: 7px 11px !important; }
+  .cl-skin .em-tabpane { padding: 12px; overflow-x: auto; }
+  .cl-skin .lg-btns.center .lg-btn { min-width: 46%; }
+}
+
+/* ---- Primary "Add" action: pill with + icon and label (CSS only; same button, same handler) ---- */
+.cl-skin button[title="Add Item"] {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 18px 0 12px !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: linear-gradient(180deg, #5f6dab 0%, var(--co-brand) 100%) !important;
+  color: #fff !important;
+  font-size: 0 !important;          /* hides the bare glyph; icon + label drawn below */
+  font-weight: 600;
+  letter-spacing: .03em;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .28) inset, 0 3px 0 #2d3659, 0 8px 14px rgba(45, 54, 89, .28) !important;
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.cl-skin button[title="Add Item"]::before {
+  content: "+";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, .18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+}
+.cl-skin button[title="Add Item"]::after {
+  content: "Add";
+  font-size: 13px;
+}
+.cl-skin button[title="Add Item"]:hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.07);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .28) inset, 0 5px 0 #2d3659, 0 12px 18px rgba(45, 54, 89, .3) !important;
+}
+.cl-skin button[title="Add Item"]:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .2) inset, 0 1px 0 #2d3659, 0 2px 4px rgba(45, 54, 89, .25) !important;
+}
+.cl-skin button[title="Add Item"]:focus-visible { outline: 0; box-shadow: 0 0 0 3px rgba(90, 103, 163, .35), 0 3px 0 #2d3659 !important; }

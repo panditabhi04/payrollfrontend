@@ -1,0 +1,231 @@
+/* =====================================================================
+ * 3D depth layer — PRESENTATION ONLY, applied app-wide (loaded last).
+ * Idea: every surface is a physical "slab": soft top highlight, a solid
+ * bottom edge (thickness), and layered shadows that grow with elevation.
+ *   level 1 = fields / small controls   level 2 = sections / tables
+ *   level 3 = page panels               level 4 = hover / raised
+ * ===================================================================== */
+:root {
+  --d3-ink: #1b2547;
+  --d3-edge: #cfd6ec;          /* slab thickness colour (light surfaces) */
+  --d3-edge-dark: #2a335b;     /* slab thickness colour (brand surfaces) */
+  --d3-line: #dde2f1;
+  --d3-e1: 0 1px 0 #fff inset, 0 1px 2px rgba(27,37,71,.10);
+  --d3-e2: 0 1px 0 #fff inset, 0 3px 0 -1px var(--d3-edge), 0 6px 14px rgba(27,37,71,.10), 0 14px 28px -10px rgba(27,37,71,.14);
+  --d3-e3: 0 1px 0 rgba(255,255,255,.9) inset, 0 5px 0 -1px var(--d3-edge), 0 12px 22px rgba(27,37,71,.12), 0 30px 60px -18px rgba(27,37,71,.26);
+  --d3-e4: 0 1px 0 #fff inset, 0 7px 0 -1px var(--d3-edge), 0 18px 30px rgba(27,37,71,.16), 0 40px 70px -20px rgba(27,37,71,.32);
+}
+
+/* ---- Page backdrop: soft studio light, not flat white ---- */
+body {
+  background:
+    radial-gradient(1100px 520px at 12% -8%, rgba(120,138,214,.20), transparent 62%),
+    radial-gradient(900px 480px at 100% 4%, rgba(66,77,122,.14), transparent 60%),
+    linear-gradient(180deg, #e8ecf8 0%, #f3f5fb 420px, #f6f8fc 100%);
+  background-attachment: fixed;
+}
+.app-content { background: transparent; }
+
+/* ---- Top navigation: brushed dark metal bar ---- */
+.ihms-header {
+  background: linear-gradient(180deg, #7a7a7a 0%, #646464 48%, #565656 100%) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 3px 0 #3d3d3d, 0 10px 22px rgba(20,24,40,.35);
+  position: sticky; top: 0; z-index: 1000;
+}
+.ihms-top { transition: background .15s ease, transform .15s ease; border-radius: 8px; }
+.ihms-top:hover { background: rgba(255,255,255,.14) !important; }
+.ihms-dropdown {
+  border-radius: 12px !important;   /* NOTE: no overflow:hidden — nested ▶ flyouts must be able to extend outside */
+  box-shadow: 0 1px 0 rgba(255,255,255,.14) inset, 0 20px 40px rgba(10,14,30,.45), 0 4px 0 #2e2e2e !important;
+}
+.ihms-dropdown > .ihms-item:first-child, .ihms-dropdown > .ihms-sub:first-child > .ihms-item { border-radius: 12px 12px 0 0; }
+.ihms-dropdown > .ihms-item:last-child, .ihms-dropdown > .ihms-sub:last-child > .ihms-item { border-radius: 0 0 12px 12px; }
+.ihms-flyout { border-radius: 12px !important; box-shadow: 0 1px 0 rgba(255,255,255,.14) inset, 0 20px 40px rgba(10,14,30,.45), 0 4px 0 #2e2e2e !important; z-index: 1200; }
+.ihms-item { transition: background .12s ease, padding-left .12s ease; padding: 7px 16px !important; line-height: 1.35 !important; border-bottom-width: 1px !important; }
+/* Long menus (e.g. Billing / Payment, 19 items) must never run off the bottom of the screen:
+   cap the height and let the list scroll. Dropdowns that contain ▶ submenus are left
+   unclipped because a scroll box would cut their flyouts off. */
+.ihms-dropdown:not(:has(.ihms-sub)) {
+  max-height: max(240px, calc(100vh - 190px));
+  overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: #9a9a9a #4b4b4b;
+}
+.ihms-dropdown:has(.ihms-sub) { max-height: none; }
+.ihms-item:hover { padding-left: 20px; }
+.app-footer { background: linear-gradient(180deg, #d6d9e3, #c4c8d6) !important; box-shadow: 0 -1px 0 rgba(255,255,255,.7) inset; }
+
+/* ---- Level 3: page panels (slabs with real thickness) ---- */
+.app-content .lg-panel,
+.app-content .panel.panel-primary,
+.app-content .tv-panel,
+.co-skin > .panel.panel-primary,
+.cl-skin {
+  box-shadow: var(--d3-e3) !important;
+  border-radius: 18px !important;
+  border: 1px solid #d3d9ee !important;
+}
+/* header slabs: glossy brand gradient with a lit top edge + dark thickness */
+.app-content .lg-panel-head,
+.app-content .panel-primary > .panel-heading,
+.app-content .tv-head,
+.app-content .tv-subhead,
+.co-skin > .panel > .panel-heading,
+.cl-skin > .lg-panel-head {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,0) 46%),
+    linear-gradient(135deg, #243062 0%, #3b4780 52%, #5d6ba8 100%) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 4px 0 var(--d3-edge-dark), 0 10px 18px rgba(27,37,71,.28) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.35);
+  position: relative; z-index: 2;
+}
+.app-content .lg-panel-body { background: linear-gradient(180deg, #e9edf8 0%, #f5f7fc 260px) !important; }
+
+/* ---- Level 2: sections, tabs panes, table frames ---- */
+.app-content .lg-form,
+.app-content .lg-form-box,
+.app-content [style*="f3f1fe"]:not(li):not(ul):not(td):not(tr),
+.co-skin .container-fluid[style*="f3f1fe"],
+.co-skin .panel.panel-primary[style*="f3f1fe"],
+.app-content .em-tabpane,
+.app-content .dm-form,
+.app-content .tv-formwrap {
+  box-shadow: var(--d3-e2) !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f4fb 100%) !important;
+  border: 1px solid var(--d3-line) !important;
+  border-radius: 14px !important;
+}
+.app-content .dt-scroll,
+.app-content .lg-grid-wrapper,
+.app-content div[style*="overflow-x: auto"],
+.app-content div[style*="overflow-x:auto"],
+.app-content div[style*="overflowX"],
+.app-content .dm-grid {
+  box-shadow: var(--d3-e2) !important;
+  border: 1px solid var(--d3-line) !important;
+  border-radius: 14px !important;
+  background: #fff;
+}
+
+/* ---- Tabs: folder tabs standing on the slab ---- */
+.app-content .em-tabs, .co-skin #tabs > ul {
+  background: linear-gradient(180deg, #dfe4f5, #cfd6ee) !important;
+  box-shadow: 0 -1px 0 #fff inset;
+}
+.app-content .em-tab, .co-skin #tabs > ul > li {
+  box-shadow: 0 1px 0 #fff inset, 0 -3px 6px rgba(27,37,71,.08);
+}
+.app-content .em-tab.active, .co-skin #tabs > ul > li:has(a[style*="bold"]) {
+  background: #fff !important;
+  box-shadow: 0 -6px 12px rgba(27,37,71,.14), 0 1px 0 #fff inset !important;
+  transform: translateY(-2px);
+}
+
+/* ---- Level 1: inputs read as recessed wells that lift on focus ---- */
+.app-content .lg-control, .app-content .form-control, .app-content .text_box,
+.app-content .dt-len, .app-content .dt-search input, .app-content .tv-input,
+.hm-skin .ihms-filter select {
+  background: linear-gradient(180deg, #f6f8fd 0%, #ffffff 40%) !important;
+  border: 1px solid #c7cfe6 !important;
+  box-shadow: 0 2px 4px rgba(27,37,71,.10) inset, 0 1px 0 #fff !important;
+}
+.app-content .lg-control:focus, .app-content .form-control:focus, .app-content .text_box:focus,
+.app-content .dt-search input:focus, .app-content .tv-input:focus, .hm-skin .ihms-filter select:focus {
+  border-color: #5a67a3 !important;
+  box-shadow: 0 2px 4px rgba(27,37,71,.08) inset, 0 0 0 3px rgba(90,103,163,.25), 0 8px 16px -6px rgba(27,37,71,.30) !important;
+  transform: translateY(-1px);
+}
+.app-content .form-control[readonly], .app-content .form-control:disabled,
+.app-content .lg-control[readonly], .app-content .lg-control:disabled {
+  background: linear-gradient(180deg, #e6e9f4, #eef0f8) !important;
+  box-shadow: 0 2px 3px rgba(27,37,71,.10) inset !important;
+}
+
+/* ---- Buttons: chunky keys with a visible side wall ---- */
+.app-content .btn-primary, .app-content .lg-btn-primary, .app-content .lg-btn-green,
+.app-content .tv-btn-primary, .cl-skin .lg-btn-green, .co-skin .btn-primary {
+  background: linear-gradient(180deg, #6b79b8 0%, #4a5688 55%, #3e4a7a 100%) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.40) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 4px 0 #28325a, 0 10px 16px rgba(27,37,71,.32) !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,.30);
+}
+.app-content .btn-danger, .app-content .lg-btn-danger, .app-content .lg-btn-red,
+.app-content .tv-btn-danger, .cl-skin .lg-btn-red, .co-skin .btn-danger {
+  background: linear-gradient(180deg, #ee6f80 0%, #d93a52 55%, #c42d44 100%) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.40) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 4px 0 #8f1f31, 0 10px 16px rgba(143,31,49,.30) !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,.30);
+}
+.app-content .btn-success, .co-skin .btn-success {
+  background: linear-gradient(180deg, #43c47c 0%, #25a05d 55%, #1c8a4e 100%) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.40) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 4px 0 #136337, 0 10px 16px rgba(19,99,55,.28) !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,.28);
+}
+.app-content .btn-default, .app-content .lg-btn:not(.lg-btn-green):not(.lg-btn-red):not(.lg-btn-primary):not(.lg-btn-danger):not([style*="background"]), .co-skin .btn-default, .cl-skin .lg-btn:not(.lg-btn-green):not(.lg-btn-red):not(.lg-btn-primary):not(.lg-btn-danger):not([style*="background"]) {
+  background: linear-gradient(180deg, #ffffff 0%, #eef1f9 100%) !important;
+  box-shadow: 0 1px 0 #fff inset, 0 4px 0 var(--d3-edge), 0 8px 12px rgba(27,37,71,.12) !important;
+}
+.app-content .lg-btn-green, .app-content .lg-btn-red, .cl-skin .lg-btn-green, .cl-skin .lg-btn-red { color: #fff !important; }
+.app-content .btn:not(:disabled):hover, .app-content .lg-btn:not(:disabled):hover, .app-content .dt-exp:hover, .app-content .tv-btn:not(:disabled):hover {
+  transform: translateY(-3px) !important;
+}
+.app-content .btn:not(:disabled):active, .app-content .lg-btn:not(:disabled):active, .app-content .tv-btn:not(:disabled):active {
+  transform: translateY(3px) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 1px 0 #1c2444, 0 2px 4px rgba(27,37,71,.3) !important;
+}
+.app-content .dt-exp {
+  background: linear-gradient(180deg, #7a88c4, #5a67a3 60%, #4a5690) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 3px 0 #323d6e, 0 7px 10px rgba(27,37,71,.25) !important;
+}
+.app-content .dt-page button { box-shadow: 0 1px 0 #fff inset, 0 3px 0 var(--d3-edge) !important; }
+.app-content button[title="Add Item"], .app-content button[title="Add"] {
+  background: linear-gradient(180deg, #6b79b8 0%, #4a5688 55%, #3e4a7a 100%) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.40) inset, 0 4px 0 #28325a, 0 10px 16px rgba(27,37,71,.32) !important;
+}
+
+/* ---- Tables: header slab + floating rows ---- */
+.app-content .lg-grid th, .app-content .dt-grid th, .app-content .table th, .app-content .table > thead > tr > th, .app-content .tv-table th {
+  background: linear-gradient(180deg, #5b69a6 0%, #424d7a 60%, #38426d 100%) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.28) inset, 0 -2px 0 rgba(0,0,0,.18) inset;
+  text-shadow: 0 1px 1px rgba(0,0,0,.28);
+}
+.app-content .lg-grid tbody tr, .app-content .dt-grid tbody tr, .app-content .table tbody tr, .app-content .tv-table tbody tr {
+  transition: background .12s ease, box-shadow .12s ease, transform .12s ease;
+}
+.app-content .dt-grid tbody tr:hover, .app-content .lg-grid tbody tr:hover, .app-content .tv-table tbody tr:hover {
+  box-shadow: 0 6px 12px -4px rgba(27,37,71,.22);
+  position: relative; z-index: 1;
+}
+
+/* ---- Login: floating card ---- */
+.login-panel { box-shadow: var(--d3-e4) !important; border-radius: 20px !important; }
+.login-head {
+  background: linear-gradient(180deg, rgba(255,255,255,.2), rgba(255,255,255,0) 46%), linear-gradient(135deg, #243062, #5d6ba8) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 4px 0 var(--d3-edge-dark);
+}
+.login-btn {
+  background: linear-gradient(180deg, #6b79b8, #3e4a7a) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 4px 0 #28325a, 0 10px 16px rgba(27,37,71,.32) !important;
+}
+
+/* ---- Notes / alerts get a little lift too ---- */
+.app-content .em-note, .app-content .lg-alert { box-shadow: var(--d3-e1); }
+
+/* ---- Home: lift the existing cards one more level ---- */
+.hm-hero { box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 6px 0 var(--d3-edge-dark), 0 22px 44px rgba(27,37,71,.34), 0 50px 80px -24px rgba(27,37,71,.40) !important; }
+.hm-panel, .hm-filters { box-shadow: var(--d3-e3) !important; }
+.hm-feature:hover, .hm-stat:hover, .hm-row:hover { box-shadow: 0 10px 24px -8px rgba(27,37,71,.25); }
+.hm-icon { box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 6px 0 color-mix(in srgb, var(--tone) 55%, #000), 0 14px 20px rgba(27,37,71,.28) !important; }
+
+/* ---- Respect users who prefer less motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .app-content .btn, .app-content .lg-btn, .app-content .lg-control, .app-content .form-control { transition: none !important; }
+}
+/* ---- Print stays flat ---- */
+@media print {
+  * { box-shadow: none !important; text-shadow: none !important; }
+  body { background: #fff !important; }
+}
+
+/* lg-btn with its own inline background keeps that colour (green/violet/red action keys), still 3D */
+.app-content .lg-btn[style*="background"]:not(.lg-btn-primary):not(.lg-btn-green):not(.lg-btn-red):not(.lg-btn-danger) {
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 4px 0 rgba(0,0,0,.28), 0 10px 16px rgba(27,37,71,.22) !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,.28);
+}
