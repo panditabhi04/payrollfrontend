@@ -43,11 +43,13 @@ export default function ManageRole() {
   const [meLoaded, setMeLoaded] = useState(false);
   const [menus, setMenus] = useState<MenuItem[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
-  
+
   const [selectedRole, setSelectedRole] = useState<string>("Add New Role");
   const [roleName, setRoleName] = useState("");
   const [approvalLevel, setApprovalLevel] = useState("");
-  
+  const [roleSearch, setRoleSearch] = useState("");
+  const [menuSearch, setMenuSearch] = useState("");
+
   // Local state for grid view permissions (menu_id -> permission)
   // legacy GridView2: four independent check boxes per menu row (saved with priority D > C > U > R)
   type Chk = { D?: boolean; C?: boolean; U?: boolean; R?: boolean };
@@ -92,7 +94,7 @@ export default function ManageRole() {
   const handleRoleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const val = e.target.value;
     setSelectedRole(val);
-    
+
     if (val === "Add New Role") {
       // legacy: Role Name box shows the dropdown text; grid reloaded with nothing ticked
       setRoleName(val);
@@ -116,9 +118,18 @@ export default function ManageRole() {
     setRolePermissions(prev => ({ ...prev, [menuId]: { ...prev[menuId], [perm]: checked } }));
   };
 
+  const filteredMenus = menus.filter((m) => {
+    if (!menuSearch.trim()) return true;
+    const term = menuSearch.trim().toLowerCase();
+    const name = (m.name || "").toLowerCase();
+    const desc = (m.description || "").toLowerCase();
+    return name.includes(term) || desc.includes(term);
+  });
+
   const handleHeaderCheckbox = (perm: "R" | "U" | "C" | "D", checked: boolean) => {
     const newPerms = { ...rolePermissions };
-    menus.forEach(m => { newPerms[m.id] = { ...newPerms[m.id], [perm]: checked }; });
+    const targetMenus = menuSearch.trim() ? filteredMenus : menus;
+    targetMenus.forEach(m => { newPerms[m.id] = { ...newPerms[m.id], [perm]: checked }; });
     setRolePermissions(newPerms);
   };
 
@@ -189,11 +200,21 @@ export default function ManageRole() {
             <div style={{ display: "flex", flexWrap: "wrap", gap: "15px" }}>
               <div style={{ flex: "0 0 16.66%" }}>
                 <b>Update Role :</b><span style={{ color: "red" }}> *</span>
-                <select value={selectedRole} onChange={handleRoleSelect} className="form-control" style={{ width: "100%", marginTop: "7px", padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px" }}>
+                <input
+                  type="text"
+                  value={roleSearch}
+                  onChange={(e) => setRoleSearch(e.target.value)}
+                  placeholder="Search Role..."
+                  className="form-control"
+                  style={{ width: "100%", marginTop: "7px", marginBottom: "5px", padding: "4px 8px", fontSize: "12px", border: "1px solid #ccc", borderRadius: "4px" }}
+                />
+                <select value={selectedRole} onChange={handleRoleSelect} className="form-control" style={{ width: "100%", padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px" }}>
                   <option value="Add New Role">Add New Role</option>
-                  {roles.map(r => (
-                    <option key={r.id} value={r.id.toString()}>{r.name}</option>
-                  ))}
+                  {roles
+                    .filter((r) => !roleSearch.trim() || r.id.toString() === selectedRole || (r.name || "").toLowerCase().includes(roleSearch.trim().toLowerCase()))
+                    .map((r) => (
+                      <option key={r.id} value={r.id.toString()}>{r.name}</option>
+                    ))}
                 </select>
               </div>
               <div style={{ flex: "0 0 16.66%" }}>
@@ -209,6 +230,32 @@ export default function ManageRole() {
 
           <div style={{ textAlign: "center" }}>
             <div style={{ background: "#f3f1fe", border: "1px solid #e2e2dd", borderRadius: "10px", padding: "15px", marginLeft: "100px", marginRight: "100px" }}>
+              <div style={{ width: "70%", margin: "0 auto 12px auto", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", flex: "1 1 300px", maxWidth: "380px" }}>
+                  <input
+                    type="text"
+                    value={menuSearch}
+                    onChange={(e) => setMenuSearch(e.target.value)}
+                    placeholder="Search Menu Name..."
+                    className="form-control"
+                    style={{ width: "100%", padding: "6px 12px", border: "1px solid #3b82f6", borderRadius: "4px", fontSize: "13px", backgroundColor: "#fff" }}
+                  />
+                  {menuSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setMenuSearch("")}
+                      className="btn btn-default btn-sm"
+                      style={{ padding: "5px 10px", fontSize: "11px", cursor: "pointer", border: "1px solid #ccc", backgroundColor: "#fff" }}
+                      title="Clear search"
+                    >
+                      ✕ Clear
+                    </button>
+                  )}
+                </div>
+                <div style={{ fontSize: "12px", color: "#555" }}>
+                  Showing <b>{filteredMenus.length}</b> of <b>{menus.length}</b> menus
+                </div>
+              </div>
               <div style={{ maxHeight: "500px", overflowY: "auto" }}>
                 <table style={{ width: "70%", margin: "0 auto", borderCollapse: "collapse", backgroundColor: "#fff" }} className="table">
                   <thead>
@@ -229,7 +276,7 @@ export default function ManageRole() {
                     </tr>
                   </thead>
                   <tbody>
-                    {menus.map((m, idx) => {
+                    {filteredMenus.map((m, idx) => {
                       const cur = rolePermissions[m.id] || {};
                       return (
                         <tr key={m.id} style={{ backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f9f9f9", color: "#000066" }}>
@@ -249,6 +296,13 @@ export default function ManageRole() {
                         </tr>
                       );
                     })}
+                    {filteredMenus.length === 0 && (
+                      <tr>
+                        <td colSpan={5} style={{ padding: "16px", textAlign: "center", color: "#888" }}>
+                          No menus found matching &quot;{menuSearch}&quot;
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>

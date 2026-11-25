@@ -47,7 +47,7 @@ export default function CashVoucherApprovals({ only }: { only?: Level } = {}) {
 
   const load = useCallback(async () => {
     setMsg("");
-    const r = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000"}${B}/?queue=${level}`, { credentials: "include", cache: "no-store" });
+    const r = await fetch(`${API_BASE_URL}${B}/?queue=${level}`, { credentials: "include", cache: "no-store" });
     if (!r.ok) { setRows([]); setMsg(await errText(r, `Failed (${r.status})`)); return; }
     const d = await r.json();
     setRows(Array.isArray(d) ? d : (d?.results ?? []));

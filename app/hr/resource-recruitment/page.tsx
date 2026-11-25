@@ -194,8 +194,10 @@ export default function ResourceRecruitmentPage() {
   const editMap = (i: number, k: keyof MapRow, v: string) =>
     setMapRows((rs) => rs.map((r, j) => (j === i ? { ...r, [k]: v } : r)));
   const saveMapRow = async (r: MapRow) => {
-    const b = await post("ba_mapping", { emp_code: r.emp_code, so_jso_code: r.so_jso_code, so_jso_name: r.so_jso_name,
-      rm_code: r.rm_code, rm_name: r.rm_name, zonal_code: r.zone_name });
+    const b = await post("ba_mapping", {
+      emp_code: r.emp_code, so_jso_code: r.so_jso_code, so_jso_name: r.so_jso_name,
+      rm_code: r.rm_code, rm_name: r.rm_name, zonal_code: r.zone_name
+    });
     if (b) showMapping();
   };
   const showHistory = async (c: Cand) => {
@@ -341,13 +343,13 @@ export default function ResourceRecruitmentPage() {
                 <b>Candidate details - {detFor.emp_name}</b>
                 <div style={{ display: "grid", gridTemplateColumns: "200px 280px 200px 280px", gap: 6, margin: "6px 0" }}>
                   {([["father_name", "Father Name"], ["dob", "Date Of Birth (dd/mm/yyyy)"], ["joining_date", "Joining Date (dd/mm/yyyy)"],
-                    ["pan_number", "Pan Number"], ["adhar_no", "Adhar Number"], ["present_address", "Present Address"],
-                    ["pin_code", "PinCode"], ["mob_no1", "Mobile Number"], ["zone_name", "Zone"], ["zm_name", "Zonal Name"],
-                    ["cluster_name", "Cluster Name"], ["client_branch_code", "Location Code"], ["background", "Background"],
-                    ["company_name", "Company Name"], ["premium", "Premium (annualised in Crs)"], ["years_in_business", "Years in Business"],
-                    ["no_of_active_customers", "No of Active Customers"], ["companies_associated", "Companies associated"],
-                    ["current_club_memberships", "Current club Memberships"], ["fresh_business_commitment", "Annual Business commitment fresh business"],
-                    ["roll_over_commitment", "Annual Business commitment Roll Over"]] as [string, string][]).map(([k, label]) => (
+                  ["pan_number", "Pan Number"], ["adhar_no", "Adhar Number"], ["present_address", "Present Address"],
+                  ["pin_code", "PinCode"], ["mob_no1", "Mobile Number"], ["zone_name", "Zone"], ["zm_name", "Zonal Name"],
+                  ["cluster_name", "Cluster Name"], ["client_branch_code", "Location Code"], ["background", "Background"],
+                  ["company_name", "Company Name"], ["premium", "Premium (annualised in Crs)"], ["years_in_business", "Years in Business"],
+                  ["no_of_active_customers", "No of Active Customers"], ["companies_associated", "Companies associated"],
+                  ["current_club_memberships", "Current club Memberships"], ["fresh_business_commitment", "Annual Business commitment fresh business"],
+                  ["roll_over_commitment", "Annual Business commitment Roll Over"]] as [string, string][]).map(([k, label]) => (
                     <React.Fragment key={k}>
                       <label>{label}:</label>
                       <input value={det[k] ?? ""} onChange={(e) => setDet((m) => ({ ...m, [k]: e.target.value }))} />

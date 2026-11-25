@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useCallback } from "react";
 import { getJSON, postJSON, upload } from "@/lib/api/legacy-fetch";
 import { API_BASE_URL } from "@/lib/api/client";
@@ -29,8 +29,9 @@ const apiMsg = (b: any, fb: string): string => {
 const AS = () => "/api/attendance/muster-sheet/";
 
 interface Row {
-  emp_code: string; 
-  emp_name: string; 
+  emp_code: string;
+  emp_name: string;
+  unit_code?: string;
   designation?: string;
   type?: string;
   left_date?: string;
@@ -62,7 +63,7 @@ function MonthYearPicker({ month, year, onChange }: {
     };
     document.addEventListener("mousedown", h);
     return () => document.removeEventListener("mousedown", h);
-  }, [open ]);
+  }, [open]);
 
   const openPicker = () => {
     setViewYear(year ? parseInt(year, 10) : curY);
@@ -173,7 +174,7 @@ export default function AttendanceSheetPage() {
   const [client, setClient] = useState("");
   const [state, setState] = useState("");
   const [unit, setUnit] = useState("");
-  const [month, setMonth] = useState(""); 
+  const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [activeTab, setActiveTab] = useState("Employee Attendance");
 
@@ -194,7 +195,7 @@ export default function AttendanceSheetPage() {
   const [approvalBy, setApprovalBy] = useState("");   // admin who approved (legacy approve_by)
   const LOCK_MSG = "Timesheet already approved, You cannot make changes !!";
   // inline attendance marking grid (shown on Submit)
-  interface AttMarkRow { emp_code: string; emp_name: string; designation?: string; type?: string; left_date?: string; days: Record<string, string>; }
+  interface AttMarkRow { emp_code: string; emp_name: string; unit_code?: string; designation?: string; type?: string; left_date?: string; days: Record<string, string>; }
   // Legacy update_joining_left_date parity: left-date ke baad ke din Absent.
   // left_date "YYYY-MM-DD" (form input) ya "DD/MM/YYYY" (master se) ho sakti hai.
   const leftDayInMonth = (leftDate: string | undefined): number | null => {
@@ -263,8 +264,8 @@ export default function AttendanceSheetPage() {
   const [convBusy, setConvBusy] = useState(false);
 
   const tabs = [
-    "Employee Attendance", "Add OT Hrs", "Conveyance", "Material Amount", 
-    "R&M Service", "Administrative Expenses", "Material Challan Uploading", 
+    "Employee Attendance", "Add OT Hrs", "Conveyance", "Material Amount",
+    "R&M Service", "Administrative Expenses", "Material Challan Uploading",
     "Shiftwise Attendance", "Feedback Update"
   ];
 
@@ -275,7 +276,7 @@ export default function AttendanceSheetPage() {
       loadRoleScope().then(sc => {
         if (!alive) return;
         setScope(sc);
-        getJSON<{results: ClientItem[]}>(`/api/masters/clients/?page_size=all`).then(d => {
+        getJSON<{ results: ClientItem[] }>(`/api/masters/clients/?page_size=all`).then(d => {
           if (!alive) return;
           setClients((d?.results || []).filter(c => scopeClient(sc, c.client_code)));
         });
@@ -287,14 +288,14 @@ export default function AttendanceSheetPage() {
     const refresh = () => { if (!document.hidden) loadClients(); };
     document.addEventListener("visibilitychange", refresh);
     window.addEventListener("focus", refresh);
-    getJSON<{states: string[]}>(`/api/masters/states/lookup/`).then(d =>
+    getJSON<{ states: string[] }>(`/api/masters/states/lookup/`).then(d =>
       setStates((d?.states ?? []).map((s) => ({ state_name: s }))));
     return () => { alive = false; document.removeEventListener("visibilitychange", refresh); window.removeEventListener("focus", refresh); };
   }, []);
 
   React.useEffect(() => {
     if (!client || client === "Select") { setUnits([]); return; }
-    getJSON<{units: UnitItem[]}>(`/api/masters/units/lookup/?client_code=${encodeURIComponent(client)}`).then(d =>
+    getJSON<{ units: UnitItem[] }>(`/api/masters/units/lookup/?client_code=${encodeURIComponent(client)}`).then(d =>
       setUnits(d?.units ?? []));
   }, [client]);
 
@@ -318,10 +319,6 @@ export default function AttendanceSheetPage() {
     if (!client || client === "Select") { alert("Please Select Client"); return false; }
     if (!state || state === "Select") { alert("Please Select State"); return false; }
     if (!unit || unit === "Select") { alert(branchSelectMsg); return false; }
-    // Legacy Req_validation: only BAJAJ ALLIANZ may process "ALL" branches together.
-    if (unit === "ALL" && selClientName !== "BAJAJ ALLIANZ GENERAL INSURANCE CO. LTD") {
-      alert(branchAllMsg); return false;
-    }
     return true;
   };
   // Day columns after today when the selected month IS the current month —
@@ -350,10 +347,6 @@ export default function AttendanceSheetPage() {
       alert("Please Select Branch");
       return;
     }
-    if (unit === "ALL" && selClientName !== "BAJAJ ALLIANZ GENERAL INSURANCE CO. LTD") {
-      alert("Please Select Branch Name");
-      return;
-    }
     if (!month || !year) {
       alert("Please Select Month/Year");
       return;
@@ -365,34 +358,34 @@ export default function AttendanceSheetPage() {
     setProcessBusy(true);
     setMsg("");
     try {
-    // process=1 -> server-side Process gates (branch policy / month-end), legacy messages
-    const pr = await fetch(
-      `${API_BASE_URL}${AS()}?unit_code=${encodeURIComponent(unit)}&month=${month}&year=${year}`
-      + `&client_code=${encodeURIComponent(client)}&state_name=${encodeURIComponent(state)}&process=1`,
-      { credentials: "include" });
-    if (!pr.ok) {
-      const eb = await pr.json().catch(() => ({}));
-      alert(apiMsg(eb, "Process failed."));
-      return;
-    }
-    const d = (await pr.json()) as { results: Row[]; approved?: boolean; approval_status?: string; approved_by?: string; alert?: string };
-    const list = d?.results ?? [];
-    // emp_btn_process_Click: no employee for the branch/month
-    if (d?.alert) alert(d.alert);
-    setRows(list);
-    // Legacy gv_fullmonthot_RowDataBound: already-muster rows pre-checked hote the.
-    // Isliye Process ke baad sab tick karke rakho taaki single Submit par sheet khule.
-    setSelectedEmps(new Set(list.map(r => r.emp_code)));
-    setShowAttMark(false); setAttRows([]); setAttCols([]); setStrength({}); setSeatByDay({});
-    // Legacy: if already approved, lock the sheet and warn (no re-processing/editing).
-    if (d?.approved) {
-      setLocked(true);
-      setApprovalStatus(d.approval_status || "Approved");
-      setApprovalBy(d.approved_by || "");
-      alert(LOCK_MSG + (d.approved_by ? `\nApproved By : ${d.approved_by}` : ""));
-    } else {
-      setLocked(false);
-      setApprovalStatus("");
+      // process=1 -> server-side Process gates (branch policy / month-end), legacy messages
+      const pr = await fetch(
+        `${API_BASE_URL}${AS()}?unit_code=${encodeURIComponent(unit)}&month=${month}&year=${year}`
+        + `&client_code=${encodeURIComponent(client)}&state_name=${encodeURIComponent(state)}&process=1`,
+        { credentials: "include" });
+      if (!pr.ok) {
+        const eb = await pr.json().catch(() => ({}));
+        alert(apiMsg(eb, "Process failed."));
+        return;
+      }
+      const d = (await pr.json()) as { results: Row[]; approved?: boolean; approval_status?: string; approved_by?: string; alert?: string };
+      const list = d?.results ?? [];
+      // emp_btn_process_Click: no employee for the branch/month
+      if (d?.alert) alert(d.alert);
+      setRows(list);
+      // Legacy gv_fullmonthot_RowDataBound: already-muster rows pre-checked hote the.
+      // Isliye Process ke baad sab tick karke rakho taaki single Submit par sheet khule.
+      setSelectedEmps(new Set(list.map(r => r.emp_code)));
+      setShowAttMark(false); setAttRows([]); setAttCols([]); setStrength({}); setSeatByDay({});
+      // Legacy: if already approved, lock the sheet and warn (no re-processing/editing).
+      if (d?.approved) {
+        setLocked(true);
+        setApprovalStatus(d.approval_status || "Approved");
+        setApprovalBy(d.approved_by || "");
+        alert(LOCK_MSG + (d.approved_by ? `\nApproved By : ${d.approved_by}` : ""));
+      } else {
+        setLocked(false);
+        setApprovalStatus("");
         setApprovalBy("");
       }
     } finally { setProcessBusy(false); }
@@ -487,7 +480,7 @@ export default function AttendanceSheetPage() {
           }
         });
         return {
-          emp_code: r.emp_code, emp_name: r.emp_name, designation: r.designation, type: r.type,
+          emp_code: r.emp_code, emp_name: r.emp_name, unit_code: r.unit_code, designation: r.designation, type: r.type,
           left_date: leftByEmp[r.emp_code] || "",
           days,
         };
@@ -523,6 +516,7 @@ export default function AttendanceSheetPage() {
     try {
       const payloadRows = attRows.map(r => ({
         emp_code: r.emp_code,
+        unit_code: r.unit_code,
         days: Object.fromEntries(attCols.map(c => [c.toLowerCase(), r.days[c] || ""])),
       }));
       const strengthRow = Object.fromEntries(attCols.map(c => [c.toLowerCase(), strength[c] ?? ""]));
@@ -599,21 +593,18 @@ export default function AttendanceSheetPage() {
     if (!client || client === "Select") { alert("Please Select Client"); return; }
     if (!state || state === "Select") { alert("Please Select State"); return; }
     if (!unit || unit === "Select") { alert("Please Select Branch"); return; }
-    if (unit === "ALL" && selClientName !== "BAJAJ ALLIANZ GENERAL INSURANCE CO. LTD") {
-      alert("Please Select Branch Name"); return;
-    }
     if (!month || !year) { alert("Please Select Month/Year"); return; }
     if (isFutureMY()) { alert("Future Month/Year not allowed"); return; }
     setReportBusy(true);
     try {
-    const r = await fetch(`${API_BASE_URL}/api/attendance/muster-sheet/?unit_code=${encodeURIComponent(unit)}&month=${month}&year=${year}&export=xls`, { credentials: "include" });
-    if (!r.ok) { alert("Download failed."); return; }
-    const blob = await r.blob();
-    const unitName = (units.find(u => u.unit_code === unit)?.unit_name || unit).replace(/\s+/g, "_");
-    const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-    a.download = `Attendance_Copy_${unitName}.xls`;
-    document.body.appendChild(a); a.click();
-    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+      const r = await fetch(`${API_BASE_URL}/api/attendance/muster-sheet/?unit_code=${encodeURIComponent(unit)}&month=${month}&year=${year}&export=xls`, { credentials: "include" });
+      if (!r.ok) { alert("Download failed."); return; }
+      const blob = await r.blob();
+      const unitName = (units.find(u => u.unit_code === unit)?.unit_name || unit).replace(/\s+/g, "_");
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+      a.download = `Attendance_Copy_${unitName}.xls`;
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
     } finally { setReportBusy(false); }
   };
   // Legacy emp_sample.aspx top-row buttons: "Attendance" (attendance sheet report) and
@@ -630,7 +621,7 @@ export default function AttendanceSheetPage() {
   };
 
   // Close: clear the selections + loaded sheet (legacy Close resets the form).
-    const close = useCallback(() => {
+  const close = useCallback(() => {
     setClient("Select"); setState("Select"); setUnit("Select");
     setMonth(""); setYear("");
     setRows([]); setMsg("Form cleared."); setSelectedEmps(new Set());
@@ -725,7 +716,7 @@ export default function AttendanceSheetPage() {
   // legacy ddl_client/ddl_state cascades: states and branches limited to the user's role-grade scope
   const filteredStates = client && client !== "Select"
     ? Array.from(new Set(units.filter(u => scopeUnit(scope, client, u.unit_code)).map(u => u.state_name).filter(Boolean)))
-        .map(s => ({ state_name: s }))
+      .map(s => ({ state_name: s }))
     : [];
 
   const filteredUnits = units.filter(u =>
@@ -735,12 +726,14 @@ export default function AttendanceSheetPage() {
   return (
     <section style={{ padding: "15px", fontFamily: "sans-serif" }}>
       {/* Button press/hover feedback (dangerouslySetInnerHTML so React never escapes the CSS). */}
-      <style dangerouslySetInnerHTML={{ __html:
-        ".btn{cursor:pointer;transition:filter .1s,transform .05s}"
-        + ".btn:hover{filter:brightness(0.93)}"
-        + ".btn:active{transform:translateY(1px);filter:brightness(0.82)}" }} />
+      <style dangerouslySetInnerHTML={{
+        __html:
+          ".btn{cursor:pointer;transition:filter .1s,transform .05s}"
+          + ".btn:hover{filter:brightness(0.93)}"
+          + ".btn:active{transform:translateY(1px);filter:brightness(0.82)}"
+      }} />
       <div className="panel panel-primary" style={{ border: "1px solid #428bca", borderRadius: "4px", backgroundColor: "#fff" }}>
-        
+
         <div className="panel-heading" style={{ backgroundColor: "#428bca", color: "#fff", padding: "10px 15px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ width: "8.33%" }}></div>
           <div style={{ width: "75%", textAlign: "center", fontSize: "small", fontWeight: "bold", textTransform: "uppercase" }}>
@@ -755,7 +748,7 @@ export default function AttendanceSheetPage() {
         <br />
 
         <div className="at-body" style={{ padding: "15px", minHeight: "500px" }}>
-          
+
           <ul className="at-tabs">
             {tabs.map(t => (
               <li key={t}>
@@ -771,90 +764,90 @@ export default function AttendanceSheetPage() {
           </ul>
 
           <div className="at-pane">
-            
+
             {activeTab === "Employee Attendance" && (
               <>
                 {!showAttMark && (<>
-                <div className="row" style={{ display: "flex", flexWrap: "wrap", gap: "15px", alignItems: "flex-end", marginBottom: "20px" }}>
-                  <div style={{ flex: "1 1 150px" }}>
-                    <b>Month / Year :</b><span style={{ color: "red" }}>*</span>
-                    <MonthYearPicker month={month} year={year} onChange={(m, y) => { setMonth(m); setYear(y); }} />
+                  <div className="row" style={{ display: "flex", flexWrap: "wrap", gap: "15px", alignItems: "flex-end", marginBottom: "20px" }}>
+                    <div style={{ flex: "1 1 150px" }}>
+                      <b>Month / Year :</b><span style={{ color: "red" }}>*</span>
+                      <MonthYearPicker month={month} year={year} onChange={(m, y) => { setMonth(m); setYear(y); }} />
+                    </div>
+                    <div style={{ flex: "1 1 200px" }}>
+                      <b>Client Name :</b><span style={{ color: "red" }}>*</span>
+                      <select className="form-control" value={client} onChange={e => { setClient(e.target.value); setState("Select"); setUnit("Select"); }} style={{ width: "100%", height: "34px", borderRadius: "4px", border: "1px solid #ccc" }}>
+                        <option value="Select">Select</option>
+                        {clients.map(c => <option key={c.client_code} value={c.client_code}>{c.client_name}</option>)}
+                      </select>
+                    </div>
+                    <div style={{ flex: "1 1 150px" }}>
+                      <b>State Name :</b><span style={{ color: "red" }}>*</span>
+                      <select className="form-control" value={state} onChange={e => { setState(e.target.value); setUnit("Select"); }} style={{ width: "100%", height: "34px", borderRadius: "4px", border: "1px solid #ccc" }}>
+                        <option value="Select">Select</option>
+                        {filteredStates.map(s => <option key={s.state_name} value={s.state_name}>{s.state_name}</option>)}
+                      </select>
+                    </div>
+                    <div style={{ flex: "1 1 200px" }}>
+                      <b>Branch Name :</b><span style={{ color: "red" }}>*</span>
+                      <SearchSelect value={unit} onChange={setUnit}
+                        options={[{ value: "Select", label: "Select" }, { value: "ALL", label: "ALL" }, ...filteredUnits.map(u => ({ value: u.unit_code, label: u.unit_name }))]} />
+                    </div>
+                    <div style={{ display: "flex", gap: "10px" }}>
+                      <button className="btn btn-success" onClick={load} disabled={processBusy} style={{ background: processBusy ? "#9bcf9b" : "#5cb85c", border: "1px solid #4cae4c", color: "#fff", padding: "6px 15px", borderRadius: "4px" }}>Process</button>
+                      <button className="btn btn-primary" onClick={openAttendanceReport} disabled={reportBusy} title="Attendance sheet report (legacy Attendance button)" style={{ background: reportBusy ? "#89a7c4" : "#337ab7", border: "1px solid #2e6da4", color: "#fff", padding: "6px 15px", borderRadius: "4px" }}>Attendance</button>
+                      <button className="btn btn-primary" onClick={openStatusReports} disabled={reportBusy} title="Branch approval status / report (legacy Reports button)" style={{ background: reportBusy ? "#89a7c4" : "#337ab7", border: "1px solid #2e6da4", color: "#fff", padding: "6px 15px", borderRadius: "4px" }}>Reports</button>
+                      <button className="btn btn-danger" onClick={close} style={{ background: "#d9534f", border: "1px solid #d43f3a", color: "#fff", padding: "6px 15px", borderRadius: "4px" }}>Close</button>
+                    </div>
                   </div>
-                  <div style={{ flex: "1 1 200px" }}>
-                    <b>Client Name :</b><span style={{ color: "red" }}>*</span>
-                    <select className="form-control" value={client} onChange={e => { setClient(e.target.value); setState("Select"); setUnit("Select"); }} style={{ width: "100%", height: "34px", borderRadius: "4px", border: "1px solid #ccc" }}>
-                      <option value="Select">Select</option>
-                      {clients.map(c => <option key={c.client_code} value={c.client_code}>{c.client_name}</option>)}
-                    </select>
-                  </div>
-                  <div style={{ flex: "1 1 150px" }}>
-                    <b>State Name :</b><span style={{ color: "red" }}>*</span>
-                    <select className="form-control" value={state} onChange={e => { setState(e.target.value); setUnit("Select"); }} style={{ width: "100%", height: "34px", borderRadius: "4px", border: "1px solid #ccc" }}>
-                      <option value="Select">Select</option>
-                      {filteredStates.map(s => <option key={s.state_name} value={s.state_name}>{s.state_name}</option>)}
-                    </select>
-                  </div>
-                  <div style={{ flex: "1 1 200px" }}>
-                    <b>Branch Name :</b><span style={{ color: "red" }}>*</span>
-                    <SearchSelect value={unit} onChange={setUnit}
-                      options={[{ value: "Select", label: "Select" }, { value: "ALL", label: "ALL" }, ...filteredUnits.map(u => ({ value: u.unit_code, label: u.unit_name }))]} />
-                  </div>
-                  <div style={{ display: "flex", gap: "10px" }}>
-                    <button className="btn btn-success" onClick={load} disabled={processBusy} style={{ background: processBusy ? "#9bcf9b" : "#5cb85c", border: "1px solid #4cae4c", color: "#fff", padding: "6px 15px", borderRadius: "4px" }}>Process</button>
-                    <button className="btn btn-primary" onClick={openAttendanceReport} disabled={reportBusy} title="Attendance sheet report (legacy Attendance button)" style={{ background: reportBusy ? "#89a7c4" : "#337ab7", border: "1px solid #2e6da4", color: "#fff", padding: "6px 15px", borderRadius: "4px" }}>Attendance</button>
-                    <button className="btn btn-primary" onClick={openStatusReports} disabled={reportBusy} title="Branch approval status / report (legacy Reports button)" style={{ background: reportBusy ? "#89a7c4" : "#337ab7", border: "1px solid #2e6da4", color: "#fff", padding: "6px 15px", borderRadius: "4px" }}>Reports</button>
-                    <button className="btn btn-danger" onClick={close} style={{ background: "#d9534f", border: "1px solid #d43f3a", color: "#fff", padding: "6px 15px", borderRadius: "4px" }}>Close</button>
-                  </div>
-                </div>
-                {msg && <div style={{ margin: "0 0 14px", padding: "8px 12px", background: "#fcf8e3", border: "1px solid #faebcc", color: "#8a6d3b", borderRadius: "4px", fontSize: "13px" }}>{msg}</div>}
-                {locked && <div style={{ margin: "0 0 14px", padding: "10px 12px", background: "#f2dede", border: "1px solid #ebccd1", color: "#a94442", borderRadius: "4px", fontSize: "13px", fontWeight: 700 }}>🔒 {LOCK_MSG}{approvalStatus ? ` (${approvalStatus})` : ""}{approvalBy ? ` — Approved By : ${approvalBy}` : ""}</div>}
+                  {msg && <div style={{ margin: "0 0 14px", padding: "8px 12px", background: "#fcf8e3", border: "1px solid #faebcc", color: "#8a6d3b", borderRadius: "4px", fontSize: "13px" }}>{msg}</div>}
+                  {locked && <div style={{ margin: "0 0 14px", padding: "10px 12px", background: "#f2dede", border: "1px solid #ebccd1", color: "#a94442", borderRadius: "4px", fontSize: "13px", fontWeight: 700 }}>🔒 {LOCK_MSG}{approvalStatus ? ` (${approvalStatus})` : ""}{approvalBy ? ` — Approved By : ${approvalBy}` : ""}</div>}
 
-                {rows.length > 0 && !locked && <div style={{ fontWeight: 700, color: "#006699", margin: "6px 0" }}>Step 1 — Select employees, then click Submit (single click par sheet khulegi; unchecked employee ke liye Left Date mandatory hai)</div>}
-                <div style={{ overflowX: "auto" }}>
-                  <table className="table table-bordered table-striped table-hover" style={{ width: "100%", background: "#fff", border: "1px solid #ddd" }}>
-                    <thead style={{ background: "#006699", color: "white" }}>
-                      <tr>
-                        <th style={{ padding: "8px", textTransform: "uppercase" }}>SR. NO.</th>
-                        <th style={{ padding: "8px", textTransform: "uppercase", textAlign: "center" }}>
-                          <input type="checkbox" title="Select all" checked={rows.length > 0 && selectedEmps.size === rows.length} onChange={toggleAllEmps} /> SELECT EMPLOYEE
-                        </th>
-                        <th style={{ padding: "8px", textTransform: "uppercase" }}>BRANCH NAME</th>
-                        <th style={{ padding: "8px", textTransform: "uppercase" }}>EMPLOYEE NAME</th>
-                        <th style={{ padding: "8px", textTransform: "uppercase" }}>DESIGNATION</th>
-                        <th style={{ padding: "8px", textTransform: "uppercase" }}>TYPE</th>
-                        <th style={{ padding: "8px", textTransform: "uppercase" }}>LEFT DATE</th>
-                        <th style={{ padding: "8px", textTransform: "uppercase" }}>LEFT REASON</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows.map((r, idx) => (
-                        <tr key={r.emp_code}>
-                          <td style={{ padding: "8px" }}>{idx + 1}</td>
-                          <td style={{ padding: "8px", textAlign: "center" }}><input type="checkbox" checked={selectedEmps.has(r.emp_code)} onChange={() => toggleEmp(r.emp_code)} /></td>
-                          <td style={{ padding: "8px" }}>{units.find(u => u.unit_code === unit)?.unit_name || unit}</td>
-                          <td style={{ padding: "8px" }}>{r.emp_name}</td>
-                          <td style={{ padding: "8px" }}>{r.designation || "OFFICE COORDINATOR"}</td>
-                          <td style={{ padding: "8px" }}>{r.type || "Permanent"}</td>
-                          <td style={{ padding: "8px" }}>
-                            <input type="date" className="form-control" style={{ height: "30px", padding: "2px 6px" }} value={r.left_date || ""} onChange={e => setRowField(r.emp_code, "left_date", e.target.value)} title="Left Date is mandatory for an unchecked employee" />
-                          </td>
-                          <td style={{ padding: "8px" }}>
-                            <input type="text" className="form-control" style={{ height: "30px", padding: "2px 6px" }} value={r.left_reason || ""} onChange={e => setRowField(r.emp_code, "left_reason", e.target.value)} placeholder="Left reason" />
-                          </td>
-                        </tr>
-                      ))}
-                      {rows.length === 0 && (
+                  {rows.length > 0 && !locked && <div style={{ fontWeight: 700, color: "#006699", margin: "6px 0" }}>Step 1 — Select employees, then click Submit (single click par sheet khulegi; unchecked employee ke liye Left Date mandatory hai)</div>}
+                  <div style={{ overflowX: "auto" }}>
+                    <table className="table table-bordered table-striped table-hover" style={{ width: "100%", background: "#fff", border: "1px solid #ddd" }}>
+                      <thead style={{ background: "#006699", color: "white" }}>
                         <tr>
-                          <td colSpan={8} style={{ textAlign: "center", padding: "20px" }}>No Data Found</td>
+                          <th style={{ padding: "8px", textTransform: "uppercase" }}>SR. NO.</th>
+                          <th style={{ padding: "8px", textTransform: "uppercase", textAlign: "center" }}>
+                            <input type="checkbox" title="Select all" checked={rows.length > 0 && selectedEmps.size === rows.length} onChange={toggleAllEmps} /> SELECT EMPLOYEE
+                          </th>
+                          <th style={{ padding: "8px", textTransform: "uppercase" }}>BRANCH NAME</th>
+                          <th style={{ padding: "8px", textTransform: "uppercase" }}>EMPLOYEE NAME</th>
+                          <th style={{ padding: "8px", textTransform: "uppercase" }}>DESIGNATION</th>
+                          <th style={{ padding: "8px", textTransform: "uppercase" }}>TYPE</th>
+                          <th style={{ padding: "8px", textTransform: "uppercase" }}>LEFT DATE</th>
+                          <th style={{ padding: "8px", textTransform: "uppercase" }}>LEFT REASON</th>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {rows.map((r, idx) => (
+                          <tr key={r.emp_code}>
+                            <td style={{ padding: "8px" }}>{idx + 1}</td>
+                            <td style={{ padding: "8px", textAlign: "center" }}><input type="checkbox" checked={selectedEmps.has(r.emp_code)} onChange={() => toggleEmp(r.emp_code)} /></td>
+                            <td style={{ padding: "8px" }}>{units.find(u => u.unit_code === (r.unit_code || unit))?.unit_name || r.unit_code || unit}</td>
+                            <td style={{ padding: "8px" }}>{r.emp_name}</td>
+                            <td style={{ padding: "8px" }}>{r.designation || "OFFICE COORDINATOR"}</td>
+                            <td style={{ padding: "8px" }}>{r.type || "Permanent"}</td>
+                            <td style={{ padding: "8px" }}>
+                              <input type="date" className="form-control" style={{ height: "30px", padding: "2px 6px" }} value={r.left_date || ""} onChange={e => setRowField(r.emp_code, "left_date", e.target.value)} title="Left Date is mandatory for an unchecked employee" />
+                            </td>
+                            <td style={{ padding: "8px" }}>
+                              <input type="text" className="form-control" style={{ height: "30px", padding: "2px 6px" }} value={r.left_reason || ""} onChange={e => setRowField(r.emp_code, "left_reason", e.target.value)} placeholder="Left reason" />
+                            </td>
+                          </tr>
+                        ))}
+                        {rows.length === 0 && (
+                          <tr>
+                            <td colSpan={8} style={{ textAlign: "center", padding: "20px" }}>No Data Found</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
 
-                <div style={{ textAlign: "center", marginTop: "20px" }}>
-                  <button className="btn btn-success" onClick={submitAttendance} disabled={submitBusy || rows.length === 0 || locked} style={{ background: (submitBusy || rows.length === 0 || locked) ? "#9bcf9b" : "#5cb85c", border: "1px solid #4cae4c", color: "#fff", padding: "6px 20px", borderRadius: "4px", fontWeight: "bold" }}>Submit</button>
-                </div>
+                  <div style={{ textAlign: "center", marginTop: "20px" }}>
+                    <button className="btn btn-success" onClick={submitAttendance} disabled={submitBusy || rows.length === 0 || locked} style={{ background: (submitBusy || rows.length === 0 || locked) ? "#9bcf9b" : "#5cb85c", border: "1px solid #4cae4c", color: "#fff", padding: "6px 20px", borderRadius: "4px", fontWeight: "bold" }}>Submit</button>
+                  </div>
                 </>)}
 
                 {showAttMark && (
@@ -905,33 +898,35 @@ export default function AttendanceSheetPage() {
                             ))}
                             <td colSpan={6} />
                           </tr>
-                          {attRows.map((r, idx) => { const s = attSummary(r); return (
-                            <tr key={r.emp_code}>
-                              <td style={{ padding: "4px" }}>{idx + 1}</td>
-                              <td style={{ padding: "4px", whiteSpace: "nowrap", background: (r.type || "").trim().toLowerCase() === "reliever" ? "#fff1d6" : undefined }}>{r.emp_name}{(r.type || "").trim().toLowerCase() === "reliever" && <span title="Reliever" style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 8, background: "#f59e0b", color: "#fff", fontSize: 10, fontWeight: 700, letterSpacing: .3 }}>RELIEVER</span>}</td>
-                              <td style={{ padding: "4px", background: (r.type || "").trim().toLowerCase() === "reliever" ? "#fff1d6" : undefined }}>{r.designation}</td>
-                              {attCols.map((c, i) => {
-                                const fd = isFutureDay(i + 1);
-                                const ld = isAfterLeft(r, i + 1);
-                                const dis = fd || ld;
-                                return (
-                                <td key={c} style={{ padding: "2px", background: dis ? "#f0f0f0" : (ATT_COLORS[r.days[c]] || "transparent") }} title={fd ? "Future date — cannot be marked" : (ld ? "After left date — Absent" : undefined)}>
-                                  <select value={r.days[c] || ""} onChange={e => setAttDay(r.emp_code, c, e.target.value)}
-                                    disabled={dis || locked}
-                                    style={{ width: "48px", border: "1px solid #ccc", borderRadius: "3px", padding: "2px", fontSize: "11px", fontWeight: 700, background: dis ? "#f0f0f0" : (ATT_COLORS[r.days[c]] || "#fff") }}>
-                                    {ATT_CODES.map(o => <option key={o} value={o}>{o || "-"}</option>)}
-                                  </select>
-                                </td>
-                                );
-                              })}
-                              <td style={{ padding: "4px", textAlign: "center", fontWeight: 700 }}>{s.present}</td>
-                              <td style={{ padding: "4px", textAlign: "center" }}>{s.absent}</td>
-                              <td style={{ padding: "4px", textAlign: "center" }}>{s.leaves}</td>
-                              <td style={{ padding: "4px", textAlign: "center" }}>{s.wo}</td>
-                              <td style={{ padding: "4px", textAlign: "center" }}>{s.ho}</td>
-                              <td style={{ padding: "4px", textAlign: "center" }}>{s.days}</td>
-                            </tr>
-                          ); })}
+                          {attRows.map((r, idx) => {
+                            const s = attSummary(r); return (
+                              <tr key={r.emp_code}>
+                                <td style={{ padding: "4px" }}>{idx + 1}</td>
+                                <td style={{ padding: "4px", whiteSpace: "nowrap", background: (r.type || "").trim().toLowerCase() === "reliever" ? "#fff1d6" : undefined }}>{r.emp_name}{(r.type || "").trim().toLowerCase() === "reliever" && <span title="Reliever" style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 8, background: "#f59e0b", color: "#fff", fontSize: 10, fontWeight: 700, letterSpacing: .3 }}>RELIEVER</span>}</td>
+                                <td style={{ padding: "4px", background: (r.type || "").trim().toLowerCase() === "reliever" ? "#fff1d6" : undefined }}>{r.designation}</td>
+                                {attCols.map((c, i) => {
+                                  const fd = isFutureDay(i + 1);
+                                  const ld = isAfterLeft(r, i + 1);
+                                  const dis = fd || ld;
+                                  return (
+                                    <td key={c} style={{ padding: "2px", background: dis ? "#f0f0f0" : (ATT_COLORS[r.days[c]] || "transparent") }} title={fd ? "Future date — cannot be marked" : (ld ? "After left date — Absent" : undefined)}>
+                                      <select value={r.days[c] || ""} onChange={e => setAttDay(r.emp_code, c, e.target.value)}
+                                        disabled={dis || locked}
+                                        style={{ width: "48px", border: "1px solid #ccc", borderRadius: "3px", padding: "2px", fontSize: "11px", fontWeight: 700, background: dis ? "#f0f0f0" : (ATT_COLORS[r.days[c]] || "#fff") }}>
+                                        {ATT_CODES.map(o => <option key={o} value={o}>{o || "-"}</option>)}
+                                      </select>
+                                    </td>
+                                  );
+                                })}
+                                <td style={{ padding: "4px", textAlign: "center", fontWeight: 700 }}>{s.present}</td>
+                                <td style={{ padding: "4px", textAlign: "center" }}>{s.absent}</td>
+                                <td style={{ padding: "4px", textAlign: "center" }}>{s.leaves}</td>
+                                <td style={{ padding: "4px", textAlign: "center" }}>{s.wo}</td>
+                                <td style={{ padding: "4px", textAlign: "center" }}>{s.ho}</td>
+                                <td style={{ padding: "4px", textAlign: "center" }}>{s.days}</td>
+                              </tr>
+                            );
+                          })}
                           {attRows.length === 0 && <tr><td colSpan={attCols.length + 3} style={{ textAlign: "center", padding: "20px" }}>No employees</td></tr>}
                           {attRows.length > 0 && (
                             <tr style={{ background: "#eef6ff", fontWeight: 700 }}>
@@ -1014,7 +1009,7 @@ export default function AttendanceSheetPage() {
             {activeTab === "Feedback Update" && <FeedbackUpdateTab />}
             {activeTab === "Shiftwise Attendance" && <ShiftwiseTab />}
 
-            
+
           </div>
         </div>
       </div>

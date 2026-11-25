@@ -40,9 +40,11 @@ export default function LoginPage() {
         router.push("/password-setup");
         return;
       }
-      setError("Invalid credentials."); // generic, no enumeration
-    } catch {
-      setError("Unable to sign in. Please try again.");
+      const msg = (data as { detail?: string })?.detail || "Invalid credentials.";
+      setError(msg);
+    } catch (err: any) {
+      console.error("Login failed:", err);
+      setError(err?.message || "Unable to sign in. Please try again.");
     } finally {
       setLoading(false);
     }

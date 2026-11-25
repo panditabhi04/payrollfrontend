@@ -23,7 +23,7 @@
  *   - Documents -> /api/masters/company-images (real file upload/download).
  */
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { getMe, type Me } from "@/lib/api/auth";
 import { API_BASE_URL } from "@/lib/api/client";
@@ -199,6 +199,322 @@ async function getJSON<T>(path: string): Promise<T | null> {
 async function listByClient<T>(base: string, clientCode: string, extra = ""): Promise<T[]> {
   const d = await getJSON<{ results: T[] }>(`${base}/lookup/?client_code=${encodeURIComponent(clientCode)}${extra}`);
   return d?.results ?? [];
+}
+
+/**
+ * Searchable select component with live search filtering, clear button,
+ * keyboard navigation, and seamless integration with legacy forms.
+ */
+function SearchableSel({
+  label,
+  req,
+  id,
+  value,
+  onChange,
+  opts,
+  disabled,
+  placeholder = "Select",
+}: {
+  label: string;
+  req?: boolean;
+  id?: string;
+  value: string;
+  onChange: (v: string) => void;
+  opts: Opt[];
+  disabled?: boolean;
+  placeholder?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Close on click outside
+  useEffect(() => {
+    if (!open) return;
+    const onMouseDown = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+        setSearch("");
+      }
+    };
+    document.addEventListener("mousedown", onMouseDown);
+    return () => document.removeEventListener("mousedown", onMouseDown);
+  }, [open]);
+
+  // Autofocus the search box whenever dropdown opens
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => searchInputRef.current?.focus(), 40);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
+  const selectedOpt = opts.find((o) => o.v === value);
+  const displayText = selectedOpt && selectedOpt.v !== "Select" ? selectedOpt.t : "";
+
+  const q = search.trim().toLowerCase();
+  const filtered = q
+    ? opts.filter((o) => o.v !== "Select" && (o.t.toLowerCase().includes(q) || o.v.toLowerCase().includes(q)))
+    : opts;
+
+  const handleSelect = (val: string) => {
+    onChange(val);
+    setOpen(false);
+    setSearch("");
+  };
+
+  const handleClear = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onChange("Select");
+    setSearch("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setOpen(false);
+      setSearch("");
+    } else if (e.key === "Enter") {
+      if (open && filtered.length > 0) {
+        e.preventDefault();
+        const pick = filtered.find((o) => o.v !== "Select") || filtered[0];
+        if (pick) handleSelect(pick.v);
+      }
+    } else if (e.key === "ArrowDown" && !open && !disabled) {
+      e.preventDefault();
+      setOpen(true);
+    }
+  };
+
+  const availableCount = opts.filter((o) => o.v !== "Select").length;
+
+  return (
+    <Field label={label} req={req}>
+      <div ref={containerRef} style={{ position: "relative", width: "100%" }} onKeyDown={handleKeyDown}>
+        {/* Hidden select so document.getElementById(id), validation alerts, focus, and autofill stay 100% compatible */}
+        <select
+          id={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => { if (!open && !disabled) setOpen(true); }}
+          tabIndex={-1}
+          style={{ position: "absolute", opacity: 0, width: 0, height: 0, pointerEvents: "none", zIndex: -1 }}
+        >
+          {opts.map((o) => (
+            <option key={o.v} value={o.v}>{o.t}</option>
+          ))}
+        </select>
+
+        {/* Clickable Display Box */}
+        <div
+          role="button"
+          tabIndex={disabled ? -1 : 0}
+          onClick={() => !disabled && setOpen(!open)}
+          className="lg-control"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            cursor: disabled ? "not-allowed" : "pointer",
+            background: disabled ? "#f5f5f5" : "#fff",
+            userSelect: "none",
+            padding: "0 10px",
+            borderColor: open ? "#5a67a3" : undefined,
+            boxShadow: open ? "0 0 0 3px rgba(90, 103, 163, .22)" : undefined,
+          }}
+        >
+          <span
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              color: displayText ? "#1e2a4a" : "#757575",
+              fontWeight: displayText ? 500 : 400,
+            }}
+          >
+            {displayText || placeholder}
+          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginLeft: "auto" }}>
+            {displayText && !disabled && (
+              <span
+                onClick={handleClear}
+                title="Clear selection"
+                style={{
+                  fontSize: "13px",
+                  color: "#999",
+                  padding: "0 3px",
+                  cursor: "pointer",
+                  lineHeight: 1,
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#d6334a")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#999")}
+              >
+                ✕
+              </span>
+            )}
+            <span style={{ fontSize: "10px", color: "#666", transform: open ? "rotate(180deg)" : "none", transition: "transform .15s" }}>
+              ▼
+            </span>
+          </div>
+        </div>
+
+        {/* Dropdown Menu Popup */}
+        {open && (
+          <div
+            style={{
+              position: "absolute",
+              top: "calc(100% + 4px)",
+              left: 0,
+              right: 0,
+              background: "#fff",
+              border: "1px solid #5a67a3",
+              borderRadius: "8px",
+              boxShadow: "0 10px 25px rgba(30, 42, 74, 0.18)",
+              zIndex: 950,
+              padding: "8px",
+              maxHeight: "280px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "6px",
+            }}
+          >
+            {/* Search Input Box */}
+            <div style={{ position: "relative", width: "100%" }}>
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder={`Search ${label.replace(":", "").trim()}...`}
+                className="form-control"
+                style={{
+                  height: "32px",
+                  fontSize: "12px",
+                  padding: "4px 26px 4px 26px",
+                  borderRadius: "6px",
+                  border: "1px solid #cfd5e8",
+                  width: "100%",
+                }}
+                onClick={(e) => e.stopPropagation()}
+              />
+              <span
+                style={{
+                  position: "absolute",
+                  left: "8px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  fontSize: "12px",
+                  color: "#888",
+                  pointerEvents: "none",
+                }}
+              >
+              </span>
+              {search && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSearch("");
+                    searchInputRef.current?.focus();
+                  }}
+                  style={{
+                    position: "absolute",
+                    right: "8px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    border: "none",
+                    background: "none",
+                    cursor: "pointer",
+                    color: "#888",
+                    fontSize: "12px",
+                    padding: 0,
+                  }}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {/* Results count indicator */}
+            <div
+              style={{
+                fontSize: "11px",
+                color: "#6b7280",
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "0 4px",
+              }}
+            >
+              <span>{availableCount} available</span>
+              {search && <span>Filtered by &quot;{search}&quot;</span>}
+            </div>
+
+            {/* Options list */}
+            <div
+              style={{
+                overflowY: "auto",
+                maxHeight: "180px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "2px",
+              }}
+            >
+              {availableCount === 0 ? (
+                <div style={{ padding: "12px", textAlign: "center", color: "#888", fontSize: "12px" }}>
+                  {label.toLowerCase().includes("city") || label.toLowerCase().includes("location")
+                    ? "Select a State first to view cities"
+                    : "No options available"}
+                </div>
+              ) : filtered.length === 0 ? (
+                <div style={{ padding: "12px", textAlign: "center", color: "#888", fontSize: "12px" }}>
+                  No matching {label.replace(":", "").trim().toLowerCase()} found
+                </div>
+              ) : (
+                filtered.map((o) => {
+                  const isSelected = o.v === value;
+                  const isPlaceholder = o.v === "Select";
+                  return (
+                    <div
+                      key={o.v}
+                      onClick={() => handleSelect(o.v)}
+                      style={{
+                        padding: "6px 10px",
+                        fontSize: "12.5px",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        background: isSelected ? "#eef1fa" : "transparent",
+                        color: isPlaceholder ? "#888" : isSelected ? "#2f3a66" : "#1e2a4a",
+                        fontWeight: isSelected ? 600 : 400,
+                        borderLeft: isSelected ? "3px solid #5a67a3" : "3px solid transparent",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isSelected) e.currentTarget.style.background = "#f4f6fc";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isSelected) e.currentTarget.style.background = "transparent";
+                      }}
+                    >
+                      <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {o.t}
+                      </span>
+                      {isSelected && !isPlaceholder && (
+                        <span style={{ color: "#5a67a3", fontSize: "12px", fontWeight: 700 }}>✓</span>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </Field>
+  );
 }
 
 export default function ClientMaster() {
@@ -946,8 +1262,8 @@ export default function ClientMaster() {
           <Txt label="Client Name :" req id="cl_name" value={f.client_name} onChange={(v) => set("client_name", v)} maxLength={50} filter={alphaPunct} />
           <Txt label="Head Office Address :" req id="cl_addr1" value={f.address1} onChange={(v) => set("address1", v)} filter={alnumPunct} />
           <Txt label="Address2 :" value={f.address2} onChange={(v) => set("address2", v)} filter={alnumPunct} />
-          <Sel label="State :" req id="cl_state" value={f.state} onChange={(v) => { set("state", v); set("city", "Select"); }} opts={stOpts} />
-          <Sel label="City :" req id="cl_city" value={f.city} onChange={(v) => set("city", v)} opts={cityOpts} />
+          <SearchableSel label="State :" req id="cl_state" value={f.state} onChange={(v) => { set("state", v); set("city", "Select"); }} opts={stOpts} placeholder="Select State" />
+          <SearchableSel label="City :" req id="cl_city" value={f.city} onChange={(v) => set("city", v)} opts={cityOpts} placeholder="Select City" />
           <Txt label="File No :" req id="cl_file" value={f.file_no} onChange={(v) => set("file_no", v)} maxLength={30} filter={alnumSpace} />
           <Txt label="Total No Of Employee :" req id="cl_total" value={f.total_employee} onChange={(v) => set("total_employee", v)} maxLength={30} filter={onlyNum} />
           <Txt label="Client Registration No :" value={f.reg_no} onChange={(v) => set("reg_no", v)} maxLength={30} filter={onlyNum} />
@@ -960,7 +1276,7 @@ export default function ClientMaster() {
           <Sel label="In Time/Out Time Applicable :" value={f.iot_applicable} onChange={(v) => set("iot_applicable", v)} opts={YN01} />
           <Txt label="Client Desk Phone No :" value={f.client_phonno} onChange={(v) => set("client_phonno", v)} maxLength={10} filter={onlyNum} />
           <Txt label="Penalty :" value={f.penalty} onChange={(v) => set("penalty", v)} filter={onlyNum} />
-          <Sel label="GST Applicable Or Not :" value={f.gst_applicable} onChange={(v) => set("gst_applicable", v)} opts={GSTAPP} />
+          <Sel label="GST Applicable Or Not:" value={f.gst_applicable} onChange={(v) => set("gst_applicable", v)} opts={GSTAPP} />
           <Txt label="Billing Amount :" value={f.bill_amount} onChange={(v) => set("bill_amount", v)} filter={onlyNum} />
           <Sel label="Material Calculation :" value={f.material_calc} onChange={(v) => set("material_calc", v)} opts={MATCALC} />
           <Txt label="No.Of Days :" value={f.material_days} onChange={(v) => set("material_days", v)} filter={onlyNum} readOnly={f.material_calc !== "1"} />
@@ -1006,8 +1322,8 @@ export default function ClientMaster() {
 
           {tab === "designation" && <div>
             <div className="lg-form">
-              <Sel label="State :" value={dd.state} onChange={(v) => setDd((p) => ({ ...p, state: v, location: "Select" }))} opts={stOpts} />
-              <Sel label="Location :" value={dd.location} onChange={(v) => setDd((p) => ({ ...p, location: v }))} opts={[{ v: "Select", t: "Select" }, ...(stateCities[dd.state] ?? []).map((c) => ({ v: c, t: c }))]} />
+              <SearchableSel label="State :" value={dd.state} onChange={(v) => setDd((p) => ({ ...p, state: v, location: "Select" }))} opts={stOpts} placeholder="Select State" />
+              <SearchableSel label="Location :" value={dd.location} onChange={(v) => setDd((p) => ({ ...p, location: v }))} opts={[{ v: "Select", t: "Select" }, ...(stateCities[dd.state] ?? []).map((c) => ({ v: c, t: c }))]} placeholder="Select Location" />
               <Sel label="Designation List :" value={dd.designation} onChange={onDesignationPick} opts={gradeOpts} />
               <Sel label="Categories :" value={dd.category} onChange={(v) => setDd((p) => ({ ...p, category: v }))} opts={CATS} />
               <Txt label="Count :" value={dd.count} onChange={(v) => setDd((p) => ({ ...p, count: onlyNum(v) }))} maxLength={10} />
